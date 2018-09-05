@@ -1,0 +1,100 @@
+[
+	{
+		"Order": "1",
+		"IndicatorID": "1",
+		"IndicatorName": "Number of clients booked ",
+		"instructions": "(refer to instruction in code 1)",
+		"isactive": 1
+	},
+	{
+		"Order": "2",
+		"IndicatorID": "2",
+		"IndicatorName": "Number of clients who kept appointments ",
+		"instructions": "(refer to instruction in code 2)",
+		"isactive": 1
+	},
+	{
+		"Order": "3",
+		"IndicatorID": "3",
+		"IndicatorName": "Number of clients with unscheduled visits ",
+		"instructions": "(refer to instruction in code 3)",
+		"isactive": 1
+	},
+	{
+		"Order": "4",
+		"IndicatorID": "4",
+		"IndicatorName": "Number of New Clients ",
+		"instructions": "(refer to instruction in code 4)",
+		"isactive": 1
+	},
+	{
+		"Order": "5",
+		"IndicatorID": "5",
+		"IndicatorName": "Transfer In ",
+		"instructions": "(refer to instruction in code 5)",
+		"isactive": 1
+	},
+	{
+		"Order": "6",
+		"IndicatorID": "6",
+		"IndicatorName": "Number of total clients attending clinics for the Day ",
+		"instructions": "(refer to instructions in code 6) ",
+		"isactive": 1
+	},
+	{
+		"Order": "7",
+		"IndicatorID": "7",
+		"IndicatorName": "Number of missed appointment Clients ",
+		"instructions": "(refer to instructions in code 7) ",
+		"isactive": 1
+	},
+	{
+		"Order": "8",
+		"IndicatorID": "8",
+		"IndicatorName": "Transfer Out ",
+		"instructions": "(refer to instructions in code 8)",
+		"isactive": 1
+	},
+	{
+		"Order": "9",
+		"IndicatorID": "9",
+		"IndicatorName": "Confirmed Dead ",
+		"instructions": "(refer to instructions in code 9)",
+		"isactive": 1
+	},
+	{
+		"Order": "10",
+		"IndicatorID": "10",
+		"IndicatorName": "Number of Defaulters this Month ",
+		"instructions": "(refer to instruction in code 10)- cummulative",
+		"isactive": 1
+	},
+	{
+		"Order": "11",
+		"IndicatorID": "11",
+		"IndicatorName": "Number of clients traced and came ",
+		"instructions": "(refer to instructions in code 11)- cummulative",
+		"isactive": 1
+	},
+	{
+		"Order": "12",
+		"IndicatorID": "12",
+		"IndicatorName": "Number of defaulters traced and came back from the last 2 previous months ",
+		"instructions": "(refer to instructions in code 12)- cummulative",
+		"isactive": 1
+	},
+	{
+		"Order": "13",
+		"IndicatorID": "13",
+		"IndicatorName": "Number of clients lost to follow up by end of this month ",
+		"instructions": "(refer to instructions in 13)- cummulative",
+		"isactive": 1
+	},
+	{
+		"Order": "14",
+		"IndicatorID": "14",
+		"IndicatorName": "Number of clients previously Lost to follow up and traced back this month ",
+		"instructions": "(refer to instructions in code 14)- cummulative",
+		"isactive": 1
+	}
+]
