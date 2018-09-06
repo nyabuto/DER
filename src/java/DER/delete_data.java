@@ -46,22 +46,22 @@ int rows;
 
            rows = Integer.parseInt(alldata.get("total_rows").toString());
            JSONArray array_data = (JSONArray)alldata.get("rows");
-            
+            System.out.println("rows to delete : "+rows);
             for(int i=0;i<rows;i++){
                 JSONObject obj_data = (JSONObject)array_data.get(i);
                 JSONObject indic_data = (JSONObject)obj_data.get("doc");
                 
-           System.out.println(i+". objdata : "+obj_data);
+           System.out.println(i+". objdata_deelte : "+obj_data);
            date = indic_data.get("date").toString();
            mflcode = indic_data.get("mflcode").toString();
            rev_id = indic_data.get("_rev").toString();
             
             
             
-            System.out.println("Console logs for results : "+results);
+            System.out.println("Console logs for results delete : "+results);
            
            
-           String replacer = "DELETE FROM rri_data WHERE date=? AND mflcode=?";
+           String replacer = "DELETE FROM der_data WHERE date=? AND mflcode=?";
            conn.pst = conn.conn.prepareStatement(replacer);
            conn.pst.setString(1, date);
            conn.pst.setString(2, mflcode);

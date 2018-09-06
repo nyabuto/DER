@@ -8,8 +8,8 @@
 
 
 <!DOCTYPE html>
-<!--<html  manifest="der.appcache">-->
-<html>
+<html  manifest="der.appcache">
+<!--<html>-->
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 		<meta charset="utf-8">
@@ -45,16 +45,19 @@
             
         </div>
         <div class="navbar-collapse collapse">
-                       
-
-            
-            <ul class="nav navbar-nav navbar-right">
+             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
               
                     <ul id="g-account-menu" class="dropdown-menu" role="menu">
                         <li><a href="#">My Profile</a></li>
                     </ul>
                 </li>
+                 <li>
+                     <a title="Add Widget" id="manageuserbutton" data-toggle="modal" href="#allusersinfo">
+                         <i class="glyphicon glyphicon-user glyphicon-remove"></i>
+                         <span id="usernamelabel">Remove Users</span></a>
+                 </li>
+                 
                  <li><a title="Add Widget" id="adduserbutton" data-toggle="modal" href="#userdetails"><i class="glyphicon glyphicon-user"></i><span id="usernamelabel"> Add Username</span></a></li>
                  <li><a title="Add Widget" data-toggle="modal" style="display:none;" id="exportdataanchor2" href="#addWidgetModal"><i class="glyphicon glyphicon-cloud-upload"></i> Export Data</a></li>
                  <li>
@@ -80,7 +83,7 @@
 
             
             
-          <h5 style="text-align: center;color:blue;">Daily Evaluation of Retention Form</h5>
+          <h3 style="text-align: center;color:black; font-weight: 900;">Daily Evaluation of Retention Form</h3>
             
             <div class="row">
                 <!-- center left-->
@@ -94,13 +97,9 @@
                         
                         <a href="#" class="btn btn-primary col-sm-3" id="upload_data">
                             <i class="glyphicon glyphicon-upload"></i>
-                            <div id="toupload">[0 Records] Upload Data to Server</div>
+                            <div id="toupload"></div>
                         </a>
-<!--                       <a class="btn btn-primary col-sm-3" title="Excel report" data-toggle="modal" href="#excelreport">
-                            <i class="glyphicon glyphicon-stats"></i>
-                            <br> Excel Report
-                        </a> -->
-                    </div>
+                         </div>
 
                     <hr>
                     <!--tabs-->
@@ -114,20 +113,18 @@
                         <div class="panel-body" style="">
                             <div class="form form-vertical">
                                 <table class='table table-striped table-bordered' >
-                                    <tr><th style="text-align:center"><div><b>Enter/Edit Daily Evaluation of Retention Data</b></div><div style="float: right;text-align: right;"><a  data-toggle="modal" href="#delete_conf"><img src="images/delete.png" id="img_delete" style="width: 30%; height: 30%; "></a></div></th></tr>
+                                    <tr><th style="text-align:center"><div><b><h4>Enter/Edit Daily Evaluation of Retention Data</h4></b></div><div style="float: right;text-align: right;"><a  data-toggle="modal" href="#delete_conf"><img src="images/delete.png" id="img_delete" style="width: 30%; height: 30%; "></a></div></th></tr>
                                     <tr><th style="text-align:center">
-                                        
                                        <div class="progress">
                                            <div class="progress-bar" id="progess" role="progressbar" style="width: 0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                      </div>     
-                                            
+                                       </div>     
                                         </th></tr>
                                 
                                     <tr>
                                  
                                 <tr><td id="user_label" class="col-xs-10">
                                 <div class="control-group">
-                                    <label><font color="red"><b>*</b></font> User </label>
+                                    <label>Current User<font color="red"><b>*</b></font></label>
                                     <div class="controls">
                                         <!--<br>-->   
                                         <select name="user" id="user">
@@ -139,7 +136,7 @@
                                 
                                 <tr><td class="col-xs-10">
                                 <div class="control-group">
-                                    <label><font color="red"><b>*</b></font> Date </label>
+                                    <label> Date <font color="red"><b>*</b></font></label>
                                     <div class="controls">
                                         <input type="text" onchange="getperiod();" name ="date" id="date" data-date-end-date="0d" autocomplete="off" class="form-control dates" readonly placeholder="e.g yyyy-mm-dd">
                                         <input type="hidden"  name ="rowid" id="rowid"  />
@@ -148,7 +145,7 @@
                                         </td></tr>
                                     <td class="col-xs-offset-10">
                                 <div class="control-group">
-                                    <label><font color="blue"><b>*</b></font> Reporting Year </label>
+                                    <label> Reporting Year <font color="blue"><b>*</b></font></label>
                                     <div class="controls">
                                         <input type="text" onchange="" name ="year" id="year" class="form-control input-sm" readonly placeholder="select date to autofill year">
                                         <input type="hidden"  name ="rowid" id="rowid"  />
@@ -159,7 +156,7 @@
                                      <tr>
                                     <td class="col-xs-10">
                                 <div class="control-group">
-                                    <label><font color="blue"><b>*</b></font> Reporting Month </label>
+                                    <label> Reporting Month <font color="blue"><b>*</b></font></label>
                                     <div class="controls">
                                         <input type="text" onchange="" name="month" id="month"  class="form-control input-sm" readonly placeholder="select date to autofill month">
                                         <input type="hidden"  name ="rowid" id="rowid"  />
@@ -174,10 +171,10 @@
                                   <tr><td class="col-xs-12">
                                 
                                   <div class="control-group">
-                                    <label> <font color="red"><b>*</b></font>  Facility Name:</label>
+                                    <label>  Facility Name: <font color="red"><b>*</b></font></label>
                                     <div class="controls">
                                         <select  onchange="" name="facilityname" id="facilityname" class="form-control" >
-                                            <option>Select Facility Name</option>
+                                            <option value="">Select Facility Name</option>
                                            
                                         </select>
                                     </div>
@@ -186,12 +183,7 @@
                                         
                                     </table>
                                          <table class='table table-striped table-bordered' id="dynamicindicators"> 
-                                <!------INDICATORS----->
-                                 <tr ><td class='col-xs-12' colspan='3'>
-                                 <div class='control-group'>
-                                    <label><font color='red'><b></b></font></label>
-                                  </div></td>
-                                 </tr>                                 
+                                                              
                                     </table>
                                 <table class="table table-striped table-bordered">
                                 <tr><td colspan="3" class="col-xs-12">               
@@ -229,7 +221,7 @@
             </div>
             <!--/row-->
 
-          <div id="prev_month">Here for previous data</div> 
+          <div id="prev_month"></div> 
 
 
             
@@ -270,30 +262,48 @@
 <!-- /.modal -->
 
 <div class="modal" id="help">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title">Help</h4>
+                <h4 class="modal-title"  style="font-weight: 900; text-align: center;">Daily Evaluation of Retention User Guide v1.0.0</h4>
             </div>
             <div class="modal-body">
-                <p>This  application is created for aiding users in collecting data for the Matching Order indicators which is done weekly. One is expected to enter data per facility.</p>
-                <h3>Indicators</h3>
-                <p>The specific indicators that one should enter data for are;</p>
-                <ul>
-
-
-<li> # viral load tests for mothers target</li>
-<li> # viral load tests done for mothers [cumulative]</li>
-
-
-
-                </ul>
-             <h3>Loading Facilities</h3>
-                 <p> The first time of installing/running the application,health facilities are downloaded and saved on the host device (mobile phone or computer browser). This requires internet connectivity. After the download, sites should appear on the facility drop down list.</p>
-                 <h3>Data Export</h3>
-                <p>Data is saved on your mobile device and should be shared to a server for analysis </p>
-                <p>If there is Any un-exported that has  been saved offline, the user will be reminded to create an export by seeing yellow text showing number of sites whose data has not been exported .</p>
+                <div>
+                 <h4 style="font-weight: bold">a] About Application  </h4> 
+                 <p>DER (Daily Evaluation of Retention form) is an offline browser based application that collects retention data daily.</p> 
+                 <p>Data collected daily from users is stored locally on your browser and users can use this application even if they have not connected to Internet.</p> 
+                 <p>Users can click on the upload button to upload data to the online server. This <b>requires</b> Internet connection.</p> 
+                 <p><b style="color: red;">Note</b> Do not clear your browser history/cache/data before you upload this data to the Internet. This will delete all data.</p> 
+                </div>         
+                <div>
+                    <h4 style="font-weight: bold;">b] First Time Use</h4>
+                   <p>Kindly follow these steps to set up DER System: </p> 
+                   <ol>
+                    <li>Enter <b>URL</b> to this system This will be provided by M&E Or clinical team.</li>
+                    <li>Add a user. Ensure you enter correct details and associate this user to the health facility.</li>
+                    <li>Select reporting date to auto-complete reporting year and month </li>
+                    <li>Select health facility.(When registering a user, the selected facility will be auto-selected) </li>
+                    <li><b  style="color: red;">Kindly Note: </b> Entry fields only appears if reporting date and health facility are selected </li>
+                   </ol>
+                </div>
+                <div>
+                <h4 style="font-weight: bold;">c] Best Practices</h4>
+                <ol>
+                <li>Remember to do regular data backup</li>
+                <li>Do not clear browser history/cache/data</li>
+                <li>We recommend you use <b>Chrome/Mozilla Firefox</b> browsers</li>
+                </ol>
+                </div>
+                
+                <div>
+                <h4 style="font-weight: bold;">d] Points to Note</h4>
+                <ol>
+                <li>Indicator <b>code 10 to 14</b> are cummulative indicators hence <b>yesterday's value</b> should not be more than <b>today's value</b>. Values are cummulated monthly.</li>
+                <li>On the 1st of Every month,value for indicator <b>code 11</b> and <b>code 12</b> should not be more than that of indicator <b>code 3</b></li>
+               </ol>
+                </div>
+              
             </div>
             <div class="modal-footer">
                 <a href="#" data-dismiss="modal" class="btn">Close</a>
@@ -364,6 +374,33 @@
       <div class="modal-footer">
         <button type="button" id="btn_add_user" class="btn btn-primary btn-success" data-dismiss="modal" >Add User</button>
       </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!--Manage User-->
+<div class="modal fade" id="allusersinfo" role="modal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h4 class="modal-title" id="exampleModalLabel" style="text-align: center; font-weight: 900;"><u>Current Registered Users</u></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+        
+        <form id="exportdataform">
+            <table  class="table table-striped table-responsive" style="padding: 10px 30px 10px 30px" >
+       <thead>
+      <tr><th>Fullname</th><th>Phone</th><th>Email</th><th>Facility MFL Code</th><th>Action</th></tr>
+      </thead>
+      <tbody  id="registered_users">
+      
+      </tbody>
+      </table>
+       </form>
     </div>
   </div>
 </div>
@@ -440,7 +477,7 @@
                 var facilityID=facilities[a].FacilityID;    
                 var facilityName=facilities[a].FacilityName;
                 var mflcode = facilities[a].MFLCode;
-                      output+="<option value=\""+facilityID+"\">"+facilityName+" - ["+mflcode+"]</option>";
+                      output+="<option value=\""+mflcode+"\">"+facilityName+" - ["+mflcode+"]</option>";
                       output2+="<option value=\""+mflcode+"\">"+facilityName+"</option>";
                  } 
 //                $("#facilityname").html(output);
@@ -597,7 +634,8 @@
 
                  <script type="text/javascript">
                 $(document).ready(function(){
-                        $("#user").select2(); 
+                        $("#user").select2();
+                          read_all_users();// load users for deleting
                          $('.dates').datepicker({
                              todayHighlight: true, clearBtn: true, autoclose: true,format: "yyyy-mm-dd"
                             });
@@ -802,7 +840,19 @@ else{
     }, function(err, response) {
       if (err) {console.log(err); }
 //      console.log(response);
+      //add it to new records
+       db_new.put({
+      _id: delete_id,
+      date: reporting_date,
+      mflcode: mflcode
+    }, function(err, response) {
+      if (err) {console.log(err); }
+//      console.log(response);
       // handle response
+      records_counter(); // to count and enable key
+    });
+      
+      
     });
 
      $.getJSON("json/indicators.json",function(indicators){
@@ -908,7 +958,12 @@ function records_counter(){
     }
     else{
         $("#upload_data").show();
-     $("#toupload").html("[<font color=\"yellow\">"+records+" Records</font>] Upload Data to Server");   
+        if(parseInt(records)>1){
+     $("#toupload").html("Upload [<font color=\"yellow\">"+records+" Records</font>]"); 
+        }
+        else{
+       $("#toupload").html("Upload [<font color=\"yellow\">"+records+" Record</font>]");       
+        }
     }
             
 //    progress(0);
@@ -963,7 +1018,7 @@ function progress(per_value){
 
 function waitnhide(){
      $("#progess").html("");
-     $("#progess").css({'width':"0%"});    
+     $("#progess").css({'width':"0%"});          
 }
 
 
@@ -1247,8 +1302,8 @@ function compare_cumulatives(){
 }
  } 
   if(not_matching>0){
-           var title = "Error. Incorrect Cumulative Values";
-           var text = "Values for indicators highlighted in red are cumulative hence yesterday's value should not be more than today's value";
+           var title = "Error. Incorrect Cummulative Values";
+           var text = "Values for indicators highlighted in red are cummulative hence yesterday's value should not be more than today's value";
            var icon = "error";
            var button = "Close";   
        notify(title,text,icon,button);
@@ -1273,17 +1328,19 @@ db_user.allDocs({
 }, function(err, response) {
   if (err) { 
       console.log("error users is : "+err);
-      alert("nothing to display");
       $("#user_label").hide();
       $("#adduserbutton").show();
+      $("#manageuserbutton").hide();
     }
     else{
-        
         
       //manage results here
         var num_users = response.total_rows;
          var array_data = response.rows;
          var fullname="",email="",phone="",mflcodes="",mflcode="",output="",output2="";
+         
+         
+         if(num_users>0){
         for(var i=0; i<num_users;i++){
      var indicator_data = array_data[i].doc;
               mflcodes += indicator_data.mflcode+",";
@@ -1312,6 +1369,14 @@ db_user.allDocs({
            $("#user").html(output2);
            $("#user").select2();
            $("#user_label").show();
+           $("#manageuserbutton").show();
+         }
+         else{
+      $("#user_label").hide();
+      $("#adduserbutton").show();
+      $("#manageuserbutton").hide();     
+         }
+           
 //           $("#adduserbutton").hide(); 
 //         alert("something to display");
     }
@@ -1334,6 +1399,7 @@ function add_user(){
          }).then(function (response) {
          console.log(response);
          get_user_info();
+         read_all_users();
          }).catch(function (err) {
            console.log(err);
          });
@@ -1363,6 +1429,62 @@ function send_users()
             });  
 }
 
+
+function read_all_users(){
+db_user.allDocs({
+  include_docs: true,
+  attachments: true
+}, function(err, response) {
+  if (err) { 
+      console.log("error users is : "+err);
+      $("#user_label").hide();
+      $("#adduserbutton").show();
+      load_indicators();
+    }
+    else{
+      //manage results here
+        var num_users = response.total_rows;
+         var array_data = response.rows;
+         var fullname="",email="",phone="",mflcode="",output="",_rev;
+        for(var i=0; i<num_users;i++){
+     var indicator_data = array_data[i].doc;
+                fullname=indicator_data.fullname;
+                email=indicator_data.email;
+                phone=indicator_data._id;
+                mflcode=indicator_data.mflcode;
+                _rev = indicator_data._rev;
+              output+="<tr><td>"+fullname+"</td><td>"+phone+"</td><td>"+email+"</td><td>"+mflcode+"</td><td><input type='hidden' name='id_"+i+"' id='id_"+i+"' value='"+phone+"' /><input type='hidden' name='rev_"+i+"' id='rev_"+i+"' value='"+_rev+"' /><img src=\"images/delete.png\" onclick=\"delete_user("+i+");\" style=\"width: 20%; height: 30%; \"></td></tr>";  
+          }
+            load_indicators();
+           $("#registered_users").html(output);
+//           $("#user").select2();
+//           $("#user_label").show();
+//           $("#adduserbutton").hide(); 
+    }
+
+});  
+}
+
+function delete_user(pos){
+var phone=$("#id_"+pos).val();
+var _rev=$("#rev_"+pos).val();
+
+db_user.remove(phone,_rev, function(err, response) {
+    if (err) { return console.log(err); }
+    else{
+   progress(100);
+   
+   var title = "Success";
+           var text = "User Details Deleted Successfully";
+           var icon = "success";
+           var button = "Ok";
+           
+ notify(title,text,icon,button);
+   
+   setTimeout(reloading,2000);
+        }
+  });
+}
  </script>
 	</body>
 </html>

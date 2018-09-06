@@ -6,8 +6,8 @@
             <file>file:/C:/GeofreyNyabuto/NetbeansProjects/DER/web/index.jsp</file>
             <file>file:/C:/GeofreyNyabuto/NetbeansProjects/DER/web/der.appcache</file>
             <file>file:/C:/GeofreyNyabuto/NetbeansProjects/DER/src/java/database/dbConn.java</file>
-            <file>file:/C:/GeofreyNyabuto/NetbeansProjects/DER/src/java/database/dbConnweb.java</file>
-            <file>file:/C:/GeofreyNyabuto/NetbeansProjects/DER/src/java/DER/checkinternet.java</file>
+            <file>file:/C:/GeofreyNyabuto/NetbeansProjects/DER/src/java/DER/save_data.java</file>
+            <file>file:/C:/GeofreyNyabuto/NetbeansProjects/DER/src/java/DER/save_users.java</file>
         </group>
     </open-files>
 </project-private>
