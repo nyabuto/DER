@@ -80,10 +80,7 @@
         
         <!-- /col-3 -->
         <div class="col-sm-12">
-
-            
-            
-          <h3 style="text-align: center;color:black; font-weight: 900;">Daily Evaluation of Retention Form</h3>
+            <h3 style="text-align: center;color:black; font-weight: 900;">Daily Evaluation of Retention Form</h3>
             
             <div class="row">
                 <!-- center left-->
@@ -889,11 +886,23 @@ function send_data(){
              var form_data = {"results":data};
             progress(25);
         $.post(url,form_data,function(output){
-//           console.log(output); 
-            progress(75);
-           send_users();
+//           console.log(output);
+        console.log("upload:::"+output);
+        if(output==null || output==""){
+   //error while uploading. 
+           var title = "Error Sending data to Server";
+           var text = "An error occured while uploading data to server. Kindly contact developers.";
+           var icon = "error";
+           var button = "Close";
+           
+           notify(title,text,icon,button);
+           progress(0);
+        }
+        else{
+           progress(75);
+           send_users();            
+        }
          });  
-             console.log(result);
             }).catch(function (err) {
 //              console.log(err);
             });
@@ -985,7 +994,12 @@ function delete_records_counter(){
 }
   
 function progress(per_value){
-    if(per_value==0 || per_value==100){
+    if(per_value==0){
+    $("#progess").html("Error Occured ");
+    $("#progess").css({'width':"100%"}); 
+    setTimeout(waitnhide, 3000);
+    }
+    else if(per_value==100){
     $("#progess").html("Task Completed");
     $("#progess").css({'width':"100%"}); 
     setTimeout(waitnhide, 3000);

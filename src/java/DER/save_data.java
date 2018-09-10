@@ -29,7 +29,7 @@ public class save_data extends HttpServlet {
 HttpSession session;
 String results,id,date,year,month,mflcode,indicator,value,timestamp,rev_id,datekey,phone;
 int counter;
-int rows;
+int rows,added;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException, ParseException {
         response.setContentType("text/html;charset=UTF-8");
@@ -37,7 +37,7 @@ int rows;
            session = request.getSession();
            dbConn conn = new dbConn();
            
-           counter = 0;
+           counter =added = 0;
            results = request.getParameter("results");
            
            JSONParser parser = new JSONParser();
@@ -87,7 +87,7 @@ int rows;
            conn.pst.setString(9, datekey);
            conn.pst.setString(10, phone);
            
-           conn.pst.executeUpdate();
+           added+=conn.pst.executeUpdate();
            }
            else{
 //               mising info entry
@@ -96,9 +96,9 @@ int rows;
             }
            
            JSONObject obj_output = new JSONObject();
-           obj_output.put("updated", (rows/14)+" Entries added/updated");
+           obj_output.put("updated", (added+" out of "+rows)+" Entries added/updated");
             
-            out.println("success");
+            out.println(obj_output);
         }
     }
 
