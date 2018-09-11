@@ -124,19 +124,11 @@ public  Connection conn = null;
 
         try {
 
-
-
-            String dbconnpath = drive + ":/HSDSA/DER/DO_NOT_DELETE/_/_/dbconnection.txt";
+             String dbconnpath = "";
             
             if (isWindows())   {
 	dbconnpath = drive + ":/HSDSA/DER/DO_NOT_DELETE/_/_/dbconnection.txt";
 
-		               }
-            else if (isUnix()) {
-                
-	dbconnpath = "HSDSA/Dashboards/DER/_/_/dbconnection.txt";
-
-		               }
             
 
             //File file = new File("");
@@ -162,6 +154,18 @@ public  Connection conn = null;
             }
             //Close the input stream
             in.close();
+            }
+            else if (isUnix()) {
+//                dbsetup[0] = "kenmysqlserver1.mysql.database.azure.com:3306";
+//                dbsetup[1] = "der_rri?verifyServerCertificate=false&useSSL=true&requireSSL=true";
+//                dbsetup[2] = "websqladmkn@kenmysqlserver1";
+//                dbsetup[3] = "P@$$w9rd4$q12Use1nK#K";
+                
+                dbsetup[0] = "kenmysqlserver1.mysql.database.azure.com:3306";
+                dbsetup[1] = "der_rri?verifyServerCertificate=false&useSSL=true&requireSSL=true";
+                dbsetup[2] = "websqladmin@kenmysqlserver1";
+                dbsetup[3] = "P@sw9rd4$q12Use1nK#";
+ }
         } catch (IOException ex) {
             Logger.getLogger(dbConn.class.getName()).log(Level.SEVERE, null, ex);
 

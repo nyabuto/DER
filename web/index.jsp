@@ -552,10 +552,10 @@
                     others_keyup += " totalclients(); ";
                     has_valid++;
                     }
-                    if(indicatorsID<3){
-                    others_keyup += " missedclients(); ";
-                    has_valid++;
-                    }
+//                    if(indicatorsID<3){
+//                    others_keyup += " missedclients(); ";
+//                    has_valid++;
+//                    }
                     
                     if(indicatorsID<3 || indicatorsID==10 || indicatorsID==11){
                     others_keyup += " checkdata(); ";
@@ -569,7 +569,7 @@
                       others_keyup="";   
                     }
                     
-                    if(indicatorsID==6 || indicatorsID==7){
+                    if(indicatorsID==6){
                       others += " readonly tabindex='-1' ";   
                     }
 
