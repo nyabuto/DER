@@ -361,7 +361,7 @@
       <div  class="row">
          <div class="col-xs-3" style="clear: left;"> <label for="name" class="control-label">Health Facility<font color="red">*</font></label> </div>
         <div  class="col-xs-8" style="padding: 3px 2px 3px 2px; float: left">
-            <select  name="mflcode" id="mflcode" class="form-control"> 
+            <select  name="mflcode" id="mflcode" multiple="true" class="form-control"> 
                 <option value="">Chose health facility</option>  
             </select>
         </div>  

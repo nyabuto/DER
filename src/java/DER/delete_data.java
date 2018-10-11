@@ -69,6 +69,9 @@ int rows;
            conn.pst.executeUpdate();
             }
            
+            
+            if(conn.pst!=null){conn.pst.close();}
+            if(conn.conn!=null){conn.conn.close();}
            JSONObject obj_output = new JSONObject();
            obj_output.put("updated", (rows/14)+" Entries added/updated");
             
