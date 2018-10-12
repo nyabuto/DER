@@ -27,7 +27,7 @@ import org.json.simple.parser.ParseException;
  */
 public class save_data extends HttpServlet {
 HttpSession session;
-String results,id,date,year,month,mflcode,indicator,value,timestamp,rev_id,datekey,phone;
+String results,id,date,year,month,mflcode,indicator,value,timestamp,rev_id,datekey,phone,delivery_point;
 int counter;
 int rows,added;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -54,6 +54,7 @@ int rows,added;
            if(indic_data.get("date")!=null){
            id = indic_data.get("_id").toString();
            date = indic_data.get("date").toString();
+           delivery_point = indic_data.get("delivery_point").toString();
            year = indic_data.get("year").toString();
            month = indic_data.get("month").toString();
            mflcode = indic_data.get("mflcode").toString();
@@ -74,7 +75,7 @@ int rows,added;
            
             if(phone==null){phone="";}
            
-           String replacer = "REPLACE INTO der_data SET id=?,date=?,year=?,month=?,mflcode=?,indicator_id=?,value=?,browser_timestamp=?,datekey=?,phone=?";
+           String replacer = "REPLACE INTO der_data SET id=?,date=?,year=?,month=?,mflcode=?,indicator_id=?,value=?,browser_timestamp=?,datekey=?,phone=?,delivery_point=?";
            conn.pst = conn.conn.prepareStatement(replacer);
            conn.pst.setString(1, id);
            conn.pst.setString(2, date);
@@ -86,6 +87,7 @@ int rows,added;
            conn.pst.setString(8, timestamp);
            conn.pst.setString(9, datekey);
            conn.pst.setString(10, phone);
+           conn.pst.setString(11, delivery_point);
            
            added+=conn.pst.executeUpdate();
            }

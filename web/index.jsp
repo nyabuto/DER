@@ -131,6 +131,20 @@
                                 </div>
                                         </td></tr>
                                 
+                                <tr><td id="delivery_label" class="col-xs-10">
+                                <div class="control-group">
+                                    <label>Delivery Point<font color="red"><b>*</b></font></label>
+                                    <div class="controls">
+                                        <!--<br>-->   
+                                        <select name="delivery_point" id="delivery_point">
+                                            <option value="">Select Delivery Point</option>
+                                            <option value="1">CCC</option>
+                                            <option value="2">PMTCT</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                        </td></tr>
+                                
                                 <tr><td class="col-xs-10">
                                 <div class="control-group">
                                     <label> Date <font color="red"><b>*</b></font></label>
@@ -459,7 +473,9 @@
                         $("#month").val(options);
                         
                         var facilityID=$("#facilityname").val();
-                         if(facilityID!="" && current_date!=""){
+                        var delivery_point=$("#delivery_point").val();
+                        
+                         if(facilityID!="" && current_date!="" && delivery_point!=""){
                              load_indicators();
                          }
                     }
@@ -491,10 +507,13 @@
                      function load_indicators(){
                     var date = $("#date").val();
                     var facilityID = $("#facilityname").val();
+                    var delivery_point = $("#delivery_point").val();
+                    
                     if(date==null){date = "";}
                     if(facilityID==null){facilityID = "";}
+                    if(delivery_point==null){delivery_point = "";}
 //                    alert("facil:"+facilityID+":");
-                    if(facilityID!="" && date!=""){
+                    if(facilityID!="" && date!="" && delivery_point!=""){
                     
                     var yesterday = getYesterdaysDate(date);
                         get_yesterday_data(yesterday);
@@ -517,7 +536,7 @@
                     
                     if(facilityID!="" && date!="" && indicatorsID!=""){
                         date = date.replace(/[-]/g,"");
-                  var id= date+"_"+facilityID+"_"+indicatorsID;
+                  var id= date+"_"+facilityID+"_"+indicatorsID+"_"+delivery_point;
                 
                 
                 
@@ -544,7 +563,7 @@
                     indicatorsID=indicators[added].IndicatorID;
                     isactive=indicators[added].isactive;
                     $("#savebutton").show();
-                    id= date+"_"+facilityID+"_"+indicatorsID;
+                    id= date+"_"+facilityID+"_"+indicatorsID+"_"+delivery_point;
                      var has_valid = 0;
                     var others_keyup = " onblur='";
                     var others = "";
@@ -632,6 +651,7 @@
                  <script type="text/javascript">
                 $(document).ready(function(){
                         $("#user").select2();
+                        $("#delivery_point").select2(); 
                           read_all_users();// load users for deleting
                          $('.dates').datepicker({
                              todayHighlight: true, clearBtn: true, autoclose: true,format: "yyyy-mm-dd"
@@ -640,8 +660,19 @@
                         
                         $("#facilityname").change(function(){
                          var facilityID=$("#facilityname").val();
+                         var delivery_point=$("#delivery_point").val();
+                         
                          var date = $("#date").val();
-                         if(facilityID!="" && date!=""){
+                         if(facilityID!="" && date!="" && delivery_point!=""){
+                             load_indicators();
+                         }
+                        });
+                        
+                        $("#delivery_point").change(function(){
+                         var facilityID=$("#facilityname").val();
+                         var delivery_point=$("#delivery_point").val();
+                         var date = $("#date").val();
+                         if(facilityID!="" && date!="" && delivery_point!=""){
                              load_indicators();
                          }
                         });
@@ -682,14 +713,16 @@ function save_data(){
     if(compare_cumulatives()){
         
     progress(10);
-    var id,reporting_date,year,month,mflcode,indic_value,date,phone;
+    var id,reporting_date,year,month,mflcode,indic_value,date,phone,delivery_point;
         
      reporting_date = $("#date").val() ;
      year = $("#year").val() ;
      month = $("#month").val() ;
      mflcode = $("#facilityname").val(); 
+     delivery_point = $("#delivery_point").val(); 
+     
      date = reporting_date.replace(/[-]/g,"");
-     id = date+"_"+mflcode;
+     id = date+"_"+mflcode+"_"+delivery_point;
      phone = $("#user").val();
      
      if(phone!=""){// has use added
@@ -717,7 +750,7 @@ function save_data(){
          
     for( var a=0;a< indic_count; a++){
     var indicatorsID=indicators[a].IndicatorID;  
-     id = date+"_"+mflcode+"_"+indicatorsID;   
+     id = date+"_"+mflcode+"_"+indicatorsID+"_"+delivery_point;   
      indic_value = $("#"+id).val();
      var timeStamp = new Date().toUTCString();
 //          alert("id is  : "+id+" value is : "+indic_value); 
@@ -726,6 +759,7 @@ if(_rev==""){
      var obj_item ={ 
         _id: id,
         date: reporting_date,
+        delivery_point: delivery_point,
         year: year,
         month: month,
         mflcode: mflcode,
@@ -741,6 +775,7 @@ if(_rev==""){
         _id: id,
         _rev: _rev,
         date: reporting_date,
+        delivery_point: delivery_point,
         year: year,
         month: month,
         mflcode: mflcode,
@@ -823,11 +858,13 @@ else{
     
     function delete_records(){
         $("#savebutton").html('Save');
-   var id,reporting_date,mflcode,date;
+   var id,reporting_date,mflcode,date,delivery_point;
      reporting_date = $("#date").val() ;
      mflcode = $("#facilityname").val(); 
+     delivery_point = $("#delivery_point").val(); 
+     
      date = reporting_date.replace(/[-]/g,"");
-   var delete_id =  date+"_"+mflcode;
+   var delete_id =  date+"_"+mflcode+"_"+delivery_point;
    
    //add the record to the deleted log
     db_delete.put({
@@ -857,7 +894,7 @@ else{
          
     for( var a=0;a< indic_count; a++){
     var indicatorsID=indicators[a].IndicatorID;  
-     id = date+"_"+mflcode+"_"+indicatorsID;
+     id = date+"_"+mflcode+"_"+indicatorsID+"_"+delivery_point;
      $("#"+id).val("");
 //          alert("id is  : "+id+" value is : "+indic_value); 
     var _rev = $("#_rev_"+id).val();
@@ -1037,33 +1074,37 @@ function waitnhide(){
 
 
 function totalclients(){
-var date,reporting_date,mflcode,ind2=0,ind3=0,ind4=0,ind5=0;
+var date,reporting_date,mflcode,ind2=0,ind3=0,ind4=0,ind5=0,delivery_point;
 
     reporting_date = $("#date").val() ;
     mflcode = $("#facilityname").val(); 
+    delivery_point = $("#delivery_point").val(); 
+    
     date = reporting_date.replace(/[-]/g,"");
     
-    if($("#"+date+"_"+mflcode+"_2").val()!=""){ind2 = $("#"+date+"_"+mflcode+"_2").val();}
-    if($("#"+date+"_"+mflcode+"_3").val()!=""){ind3 = $("#"+date+"_"+mflcode+"_3").val();}
-    if($("#"+date+"_"+mflcode+"_4").val()!=""){ind4 = $("#"+date+"_"+mflcode+"_4").val();}
-    if($("#"+date+"_"+mflcode+"_5").val()!=""){ind5 = $("#"+date+"_"+mflcode+"_5").val();}
+    if($("#"+date+"_"+mflcode+"_2_"+delivery_point).val()!=""){ind2 = $("#"+date+"_"+mflcode+"_2_"+delivery_point).val();}
+    if($("#"+date+"_"+mflcode+"_3_"+delivery_point).val()!=""){ind3 = $("#"+date+"_"+mflcode+"_3_"+delivery_point).val();}
+    if($("#"+date+"_"+mflcode+"_4_"+delivery_point).val()!=""){ind4 = $("#"+date+"_"+mflcode+"_4_"+delivery_point).val();}
+    if($("#"+date+"_"+mflcode+"_5_"+delivery_point).val()!=""){ind5 = $("#"+date+"_"+mflcode+"_5_"+delivery_point).val();}
    
     var total = parseInt(ind2)+parseInt(ind3)+parseInt(ind4)+parseInt(ind5);
-    $("#"+date+"_"+mflcode+"_6").val(total);
+    $("#"+date+"_"+mflcode+"_6_"+delivery_point).val(total);
      
 }
 function missedclients(){
-var date,reporting_date,mflcode,ind1=0,ind2=0;
+var date,reporting_date,mflcode,ind1=0,ind2=0,delivery_point;
 
     reporting_date = $("#date").val() ;
     mflcode = $("#facilityname").val(); 
+    delivery_point = $("#delivery_point").val(); 
+    
     date = reporting_date.replace(/[-]/g,"");
     
-    if($("#"+date+"_"+mflcode+"_1").val()!=""){ind1 = $("#"+date+"_"+mflcode+"_1").val();}
-    if($("#"+date+"_"+mflcode+"_2").val()!=""){ind2 = $("#"+date+"_"+mflcode+"_2").val();}
+    if($("#"+date+"_"+mflcode+"_1_"+delivery_point).val()!=""){ind1 = $("#"+date+"_"+mflcode+"_1_"+delivery_point).val();}
+    if($("#"+date+"_"+mflcode+"_2_"+delivery_point).val()!=""){ind2 = $("#"+date+"_"+mflcode+"_2_"+delivery_point).val();}
    
     var total = parseInt(ind1)-parseInt(ind2);
-    $("#"+date+"_"+mflcode+"_7").val(total);
+    $("#"+date+"_"+mflcode+"_7_"+delivery_point).val(total);
 }
 
 
@@ -1077,67 +1118,94 @@ function reloading(){
 }
 
 function checkdata(){
-    var indic1=0,indic2=0,indic10=0,indic11=0;
+    var indic1=0,indic2=0,indic10=0,indic11=0,delivery_point;
     var date,reporting_date,mflcode;
     var returned=true;
     reporting_date = $("#date").val() ;
     mflcode = $("#facilityname").val(); 
+    
+    delivery_point = $("#delivery_point").val(); 
+    
     date = reporting_date.replace(/[-]/g,"");
     
-            if($("#"+date+"_"+mflcode+"_1").val()!=""){indic1 = $("#"+date+"_"+mflcode+"_1").val();}
-            if($("#"+date+"_"+mflcode+"_2").val()!=""){indic2 = $("#"+date+"_"+mflcode+"_2").val();}
-            if($("#"+date+"_"+mflcode+"_10").val()!=""){indic10 = $("#"+date+"_"+mflcode+"_10").val();}
-            if($("#"+date+"_"+mflcode+"_11").val()!=""){indic11 = $("#"+date+"_"+mflcode+"_11").val();}
-            
-           if(indic2>indic1){
+            if($("#"+date+"_"+mflcode+"_1_"+delivery_point).val()!=""){indic1 = $("#"+date+"_"+mflcode+"_1_"+delivery_point).val();}
+            if($("#"+date+"_"+mflcode+"_2_"+delivery_point).val()!=""){indic2 = $("#"+date+"_"+mflcode+"_2_"+delivery_point).val();}
+            if($("#"+date+"_"+mflcode+"_10_"+delivery_point).val()!=""){indic10 = $("#"+date+"_"+mflcode+"_10_"+delivery_point).val();}
+            if($("#"+date+"_"+mflcode+"_11_"+delivery_point).val()!=""){indic11 = $("#"+date+"_"+mflcode+"_11_"+delivery_point).val();}
+//            alert("code 2:"+indic2+" code 1:"+indic1);
+           if(parseInt(indic2)>parseInt(indic1)){
                returned = false;
 //               error for both
-            $("#"+date+"_"+mflcode+"_1").css("border-color", "#e60000");
-            $("#"+date+"_"+mflcode+"_2").css("border-color", "#e60000");
-            $("#"+date+"_"+mflcode+"_1").css("background-color", "#ff6666");
-            $("#"+date+"_"+mflcode+"_2").css("background-color", "#ff6666");
+            $("#"+date+"_"+mflcode+"_1_"+delivery_point).css("border-color", "#e60000");
+            $("#"+date+"_"+mflcode+"_2_"+delivery_point).css("border-color", "#e60000");
+            $("#"+date+"_"+mflcode+"_1_"+delivery_point).css("background-color", "#ff6666");
+            $("#"+date+"_"+mflcode+"_2_"+delivery_point).css("background-color", "#ff6666");
+            
+           var title = "Error in Calculation";
+           var text = "Kindly value in Code no 2 is greater than value in code 1.";
+           var icon = "error";
+           var button = "Close";
+           
+           notify(title,text,icon,button);
+           
+            $("#"+date+"_"+mflcode+"_1_"+delivery_point).attr("title", "Indicator Code 2 is greater than indicator code 1");
+            $("#"+date+"_"+mflcode+"_2_"+delivery_point).attr("title", "Indicator Code 2 is greater than indicator code 1");
            } 
            else{
            returned = true;   
-            $("#"+date+"_"+mflcode+"_1").css("border-color", "#0069cc");
-            $("#"+date+"_"+mflcode+"_2").css("border-color", "#0069cc");
-            $("#"+date+"_"+mflcode+"_1").css("background-color", "#ffffff");
-            $("#"+date+"_"+mflcode+"_2").css("background-color", "#ffffff");
+            $("#"+date+"_"+mflcode+"_1_"+delivery_point).css("border-color", "#0069cc");
+            $("#"+date+"_"+mflcode+"_2_"+delivery_point).css("border-color", "#0069cc");
+            $("#"+date+"_"+mflcode+"_1_"+delivery_point).css("background-color", "#ffffff");
+            $("#"+date+"_"+mflcode+"_2_"+delivery_point).css("background-color", "#ffffff");
+            
            }
-          if(indic11>indic10){
+          if(parseInt(indic11)>parseInt(indic10)){
              returned = false;
-            $("#"+date+"_"+mflcode+"_10").css("border-color", "#e60000");
-            $("#"+date+"_"+mflcode+"_11").css("border-color", "#e60000");
-            $("#"+date+"_"+mflcode+"_10").css("background-color", "#ff6666");
-            $("#"+date+"_"+mflcode+"_11").css("background-color", "#ff6666");
+            $("#"+date+"_"+mflcode+"_10_"+delivery_point).css("border-color", "#e60000");
+            $("#"+date+"_"+mflcode+"_11_"+delivery_point).css("border-color", "#e60000");
+            $("#"+date+"_"+mflcode+"_10_"+delivery_point).css("background-color", "#ff6666");
+            $("#"+date+"_"+mflcode+"_11_"+delivery_point).css("background-color", "#ff6666");
+            
+            $("#"+date+"_"+mflcode+"_10_"+delivery_point).attr("title", "Indicator Code 11 is greater than indicator code 10");
+            $("#"+date+"_"+mflcode+"_11_"+delivery_point).attr("title", "Indicator Code 11 is greater than indicator code 10");
+            
+           var title = "Error in Calculation";
+           var text = "Kindly value in Code no 11 is greater than value in code 10.";
+           var icon = "error";
+           var button = "Close";
+           
+           notify(title,text,icon,button);
           }
           else{
               returned = true;
               
-            $("#"+date+"_"+mflcode+"_10").css("border-color", "#0069cc");
-            $("#"+date+"_"+mflcode+"_11").css("border-color", "#0069cc");
-            $("#"+date+"_"+mflcode+"_10").css("background-color", "#ffffff");
-            $("#"+date+"_"+mflcode+"_11").css("background-color", "#ffffff");
+            $("#"+date+"_"+mflcode+"_10_"+delivery_point).css("border-color", "#0069cc");
+            $("#"+date+"_"+mflcode+"_11_"+delivery_point).css("border-color", "#0069cc");
+            $("#"+date+"_"+mflcode+"_10_"+delivery_point).css("background-color", "#ffffff");
+            $("#"+date+"_"+mflcode+"_11_"+delivery_point).css("background-color", "#ffffff");
           }
            
     return returned;
 }
+
 function checkif_allexist(){
-    var date,reporting_date,mflcode,missing=0;
+    var date,reporting_date,mflcode,missing=0,delivery_point;
     var returned=true;
     reporting_date = $("#date").val() ;
     mflcode = $("#facilityname").val(); 
+    delivery_point = $("#delivery_point").val(); 
+    
     date = reporting_date.replace(/[-]/g,"");
     for(var i=1;i<=14;i++){
-        if($("#"+date+"_"+mflcode+"_"+i).val()=="")
+        if($("#"+date+"_"+mflcode+"_"+i+"_"+delivery_point).val()=="")
         {
         missing++;
-        $("#"+date+"_"+mflcode+"_"+i).css("border-color", "#e60000");
-        $("#"+date+"_"+mflcode+"_"+i).css("background-color", "#ff6666");
+        $("#"+date+"_"+mflcode+"_"+i+"_"+delivery_point).css("border-color", "#e60000");
+        $("#"+date+"_"+mflcode+"_"+i+"_"+delivery_point).css("background-color", "#ff6666");
         }
         else{
-         $("#"+date+"_"+mflcode+"_"+i).css("border-color", "#0069cc");
-         $("#"+date+"_"+mflcode+"_"+i).css("background-color", "#ffffff");   
+         $("#"+date+"_"+mflcode+"_"+i+"_"+delivery_point).css("border-color", "#0069cc");
+         $("#"+date+"_"+mflcode+"_"+i+"_"+delivery_point).css("background-color", "#ffffff");   
         }
     }
     if(missing>0){
@@ -1184,27 +1252,29 @@ function notify(title,text,icon,button){
 }
 
 function check_values_on1st(){
-    var date,reporting_date,mflcode,indic3="",indic11="",indic12="";
+    var date,reporting_date,mflcode,indic3="",indic11="",indic12="",delivery_point;
     var returned=true;
     reporting_date = $("#date").val() ;
     if(reporting_date.endsWith("-01")){
     mflcode = $("#facilityname").val(); 
+    delivery_point = $("#delivery_point").val(); 
+    
     date = reporting_date.replace(/[-]/g,"");
     
-    indic3=$("#"+date+"_"+mflcode+"_3").val();
-    indic11=$("#"+date+"_"+mflcode+"_11").val();
-    indic12=$("#"+date+"_"+mflcode+"_12").val();
+    indic3=$("#"+date+"_"+mflcode+"_3_"+delivery_point).val();
+    indic11=$("#"+date+"_"+mflcode+"_11_"+delivery_point).val();
+    indic12=$("#"+date+"_"+mflcode+"_12_"+delivery_point).val();
     if(indic3==""){indic3=0;}
     if(indic11==""){indic11=0;}
     if(indic12==""){indic12=0;}
     
     if(parseInt(indic11)>parseInt(indic3))
     {
-        $("#"+date+"_"+mflcode+"_3").css("border-color", "#e60000");
-        $("#"+date+"_"+mflcode+"_3").css("background-color", "#ff6666");
+        $("#"+date+"_"+mflcode+"_3_"+delivery_point).css("border-color", "#e60000");
+        $("#"+date+"_"+mflcode+"_3_"+delivery_point).css("background-color", "#ff6666");
         
-        $("#"+date+"_"+mflcode+"_11").css("border-color", "#e60000");
-        $("#"+date+"_"+mflcode+"_11").css("background-color", "#ff6666");
+        $("#"+date+"_"+mflcode+"_11_"+delivery_point).css("border-color", "#e60000");
+        $("#"+date+"_"+mflcode+"_11_"+delivery_point).css("background-color", "#ff6666");
                 returned = false;
                 
           var title = "Error. Incorrect values";
@@ -1217,11 +1287,11 @@ function check_values_on1st(){
     
     if(parseInt(indic12)>parseInt(indic3))
     {
-        $("#"+date+"_"+mflcode+"_3").css("border-color", "#e60000");
-        $("#"+date+"_"+mflcode+"_3").css("background-color", "#ff6666");
+        $("#"+date+"_"+mflcode+"_3_"+delivery_point).css("border-color", "#e60000");
+        $("#"+date+"_"+mflcode+"_3_"+delivery_point).css("background-color", "#ff6666");
         
-        $("#"+date+"_"+mflcode+"_12").css("border-color", "#e60000");
-        $("#"+date+"_"+mflcode+"_12").css("background-color", "#ff6666");
+        $("#"+date+"_"+mflcode+"_12_"+delivery_point).css("border-color", "#e60000");
+        $("#"+date+"_"+mflcode+"_12_"+delivery_point).css("background-color", "#ff6666");
                 returned = false;
                 
            var title = "Error. Incorrect values";
@@ -1258,12 +1328,14 @@ function getYesterdaysDate(reporting_date) {
 
 function get_yesterday_data(reporting_date){
      var mflcode = $("#facilityname").val(); 
+     var delivery_point = $("#delivery_point").val();
+     
      var date = reporting_date.replace(/[-]/g,"");
     var id="",output="",_rev="",value="";
     var indic_id=10;
   for(var i=10;i<=14;i++){
       
-   id = date+"_"+mflcode+"_"+i;
+   id = date+"_"+mflcode+"_"+i+"_"+delivery_point;
 //   alert("i:"+i);
   
       db.get(id, function(err, doc) {
@@ -1275,7 +1347,7 @@ function get_yesterday_data(reporting_date){
             value = doc.value; 
        }
        
-     id = date+"_"+mflcode+"_"+indic_id;  
+     id = date+"_"+mflcode+"_"+indic_id+"_"+delivery_point;  
     output+="<input required type='hidden' min ='0' max='5237' value='"+value+"'  name='"+id+"' id='"+id+"' class='form-control data'>"; 
 //    alert(output);
     $("#prev_month").html(output); 
@@ -1297,12 +1369,14 @@ function compare_cumulatives(){
         
     var yesterday = getYesterdaysDate(reporting_date) ;
    var mflcode = $("#facilityname").val(); 
+   var delivery_point = $("#delivery_point").val(); 
+   
    var date = reporting_date.replace(/[-]/g,"");
    var date_yester = yesterday.replace(/[-]/g,"");
    var id="",id_yester="",value="",value_yester="";
    for(var i=10;i<=14;i++){
-   id = date+"_"+mflcode+"_"+i;
-   id_yester = date_yester+"_"+mflcode+"_"+i;
+   id = date+"_"+mflcode+"_"+i+"_"+delivery_point;
+   id_yester = date_yester+"_"+mflcode+"_"+i+"_"+delivery_point;
    
    value = $("#"+id).val();
    value_yester= $("#"+id_yester).val();
