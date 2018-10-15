@@ -54,7 +54,12 @@ int rows,added;
            if(indic_data.get("date")!=null){
            id = indic_data.get("_id").toString();
            date = indic_data.get("date").toString();
+           if(indic_data.get("delivery_point")!=null){
            delivery_point = indic_data.get("delivery_point").toString();
+           }
+           else{
+             delivery_point="1";  
+           }
            year = indic_data.get("year").toString();
            month = indic_data.get("month").toString();
            mflcode = indic_data.get("mflcode").toString();
