@@ -23,7 +23,33 @@
                     <link rel="stylesheet" href="css/select2.min.css">
                     <link rel="shortcut icon" href="logo.png">
 		<link href="css/styles.css" rel="stylesheet">
-                
+                <link href='https://fonts.googleapis.com/css?family=Aclonica' rel='stylesheet'>
+            <style>
+            .navbar-brand {
+                font-family: 'Aclonica';font-size: 35px;
+            }
+
+            @-webkit-keyframes spaceboots {
+                    0% { -webkit-transform: translate(2px, 1px) rotate(0deg); }
+                    10% { -webkit-transform: translate(-1px, -2px) rotate(-1deg); }
+                    20% { -webkit-transform: translate(-3px, 0px) rotate(1deg); }
+                    30% { -webkit-transform: translate(0px, 2px) rotate(0deg); }
+                    40% { -webkit-transform: translate(1px, -1px) rotate(1deg); }
+                    50% { -webkit-transform: translate(-1px, 2px) rotate(-1deg); }
+                    60% { -webkit-transform: translate(-3px, 1px) rotate(0deg); }
+                    70% { -webkit-transform: translate(2px, 1px) rotate(-1deg); }
+                    80% { -webkit-transform: translate(-1px, -1px) rotate(1deg); }
+                    90% { -webkit-transform: translate(2px, 2px) rotate(0deg); }
+                    100% { -webkit-transform: translate(1px, -2px) rotate(-1deg); }
+            }
+            .shake{
+                -webkit-animation-name: spaceboots;
+                    -webkit-animation-duration: 2.2s;
+                    -webkit-transform-origin:50% 50%;
+                    -webkit-animation-iteration-count: infinite;
+                    -webkit-animation-timing-function: linear;
+            }
+            </style>
                 <style>
                 input:focus {
                     border-color: red;
@@ -80,7 +106,7 @@
         
         <!-- /col-3 -->
         <div class="col-sm-12">
-            <h3 style="text-align: center;color:black; font-weight: 900;">Daily Evaluation of Retention Form</h3>
+            <h3 style="text-align: center;color:black; font-weight: 900;">Daily Evaluation of Retention Form <div style="font-size: 14px; color: green;">V 1.0.0.3 [2018-11-09]</div></h3>
             
             <div class="row">
                 <!-- center left-->
@@ -92,10 +118,16 @@
                             <br> Refresh
                         </a>
                         
-                        <a href="#" class="btn btn-primary col-sm-3" id="upload_data">
+                        <a href="#" class="btn col-sm-3 shake btn-danger btn-lg" id="upload_data">
                             <i class="glyphicon glyphicon-upload"></i>
-                            <div id="toupload"></div>
+                            <div id="toupload" style="font-size: 18px; font-weight: 900;"></div>
                         </a>
+                        
+                        <a href="#" class="btn btn-primary col-sm-1" style="background: green;font-size: 17px; font-weight: 400;" id="export">
+                            <i class="glyphicon glyphicon-download-alt"></i>
+                             Download Data as Excel
+                        </a>
+                       
                          </div>
 
                     <hr>
@@ -234,7 +266,11 @@
 
           <div id="prev_month"></div> 
 
-
+  <table id="table_data" class="table" style="margin-left: 50px; margin-right: 50px; width: 95%;" hidden="true">
+          <thead><tr><th>ID</th><th>Date</th><th>Delivery Point</th><th>Year</th><th>Month</th><th>Indicator</th><th>MFLCode</th><th>Value</th><th>Date Key</th><th>Phone</th><th>Timestamp</th><th>Timestamp</th>  </tr></thead>
+          <tbody id="data"> </tbody>
+        </table>
+	
             
         </div>
         <!--/col-span-9-->
@@ -919,7 +955,6 @@ function send_data(){
             }).then(function (result) {
               // handle result
               var data = JSON.stringify(result);
-
              var form_data = {"results":data};
             progress(25);
         $.post(url,form_data,function(output){
@@ -937,7 +972,15 @@ function send_data(){
         }
         else{
            progress(75);
-           send_users();            
+           send_users(); 
+           
+            db.destroy(function (err, response) {
+            if (err) {
+              console.log(err);
+            } else {
+                console.log(response);
+            }
+          });
         }
          });  
             }).catch(function (err) {
@@ -1574,5 +1617,98 @@ db_user.remove(phone,_rev, function(err, response) {
   });
 }
  </script>
+ 
+ 
+                 <script>
+                     
+                   $("#export").click(function(){
+                       exportTableToExcel("table_data","Exported_DER_Data");
+                       
+//                        db.destroy(function (err, response) {
+//                        if (err) {
+//                          console.log(err);
+//                        } else {
+//                            console.log(response);
+//                        }
+//                      });
+                   });
+                   
+                   
+                db.allDocs({
+                  include_docs: true,
+                  attachments: true
+                }).then(function (result) {
+                  // handle result
+//              var data = JSON.stringify(result);
+//		alert("data:"+data);
+//		console.log(data);
+
+                 $("#records").html(result.total_rows+" Records Found");
+               var rows = result.rows;
+//               console.log(result.rows);
+              var output="";
+            var date,delivery_point,year,month,mflcode,indicator,value,phone,timestamp,_id,_rev;
+//    alert("len : "+rows.length);
+               for(var i=0;i<rows.length;i++){
+                        date = rows[i].doc.date;
+                        delivery_point = rows[i].doc.delivery_point;
+                        year = rows[i].doc.year;
+                        month = rows[i].doc.month;
+                        mflcode = rows[i].doc.mflcode;
+                        indicator = rows[i].doc.indicator;
+                        value = rows[i].doc.value;
+                        phone = rows[i].doc.phone;
+                        timestamp = rows[i].doc.timestamp;
+                        _id = rows[i].doc._id;
+                        _rev= rows[i].doc._rev;  
+                        
+                output+="<tr><td>"+_id+"</td><td>"+date+"</td><td>"+delivery_point+"</td><td>"+year+"</td><td>"+month+"</td><td>"+indicator+"</td><td>"+mflcode+"</td><td>"+value+"</td><td>"+date+"</td><td>"+phone+"</td><td>"+timestamp+"</td><td>"+timestamp+"</td></tr>";        
+                $("#data").html(output); 
+            }
+                 
+//              $("#data").html(output);   
+                 
+                 
+                 
+                 
+//                 var form_data = {"results":data};
+//                 alert("data:"+data);
+                }).catch(function (err) {
+                  console.log(err);
+                });
+						  
+				  
+	
+    function exportTableToExcel(tableID, filename = ''){
+    var downloadLink;
+    var dataType = 'application/vnd.ms-excel';
+    var tableSelect = document.getElementById(tableID);
+    var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+    
+    // Specify file name
+    filename = filename?filename+'.xls':'excel_data.xls';
+    
+    // Create download link element
+    downloadLink = document.createElement("a");
+    
+    document.body.appendChild(downloadLink);
+    
+    if(navigator.msSaveOrOpenBlob){
+        var blob = new Blob(['\ufeff', tableHTML], {
+            type: dataType
+        });
+        navigator.msSaveOrOpenBlob( blob, filename);
+    }else{
+        // Create a link to the file
+        downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+    
+        // Setting the file name
+        downloadLink.download = filename;
+        
+        //triggering the function
+        downloadLink.click();
+    }
+}
+                 </script>
 	</body>
 </html>

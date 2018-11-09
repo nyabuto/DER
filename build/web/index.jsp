@@ -23,7 +23,33 @@
                     <link rel="stylesheet" href="css/select2.min.css">
                     <link rel="shortcut icon" href="logo.png">
 		<link href="css/styles.css" rel="stylesheet">
-                
+                <link href='https://fonts.googleapis.com/css?family=Aclonica' rel='stylesheet'>
+            <style>
+            .navbar-brand {
+                font-family: 'Aclonica';font-size: 35px;
+            }
+
+            @-webkit-keyframes spaceboots {
+                    0% { -webkit-transform: translate(2px, 1px) rotate(0deg); }
+                    10% { -webkit-transform: translate(-1px, -2px) rotate(-1deg); }
+                    20% { -webkit-transform: translate(-3px, 0px) rotate(1deg); }
+                    30% { -webkit-transform: translate(0px, 2px) rotate(0deg); }
+                    40% { -webkit-transform: translate(1px, -1px) rotate(1deg); }
+                    50% { -webkit-transform: translate(-1px, 2px) rotate(-1deg); }
+                    60% { -webkit-transform: translate(-3px, 1px) rotate(0deg); }
+                    70% { -webkit-transform: translate(2px, 1px) rotate(-1deg); }
+                    80% { -webkit-transform: translate(-1px, -1px) rotate(1deg); }
+                    90% { -webkit-transform: translate(2px, 2px) rotate(0deg); }
+                    100% { -webkit-transform: translate(1px, -2px) rotate(-1deg); }
+            }
+            .shake{
+                -webkit-animation-name: spaceboots;
+                    -webkit-animation-duration: 2.2s;
+                    -webkit-transform-origin:50% 50%;
+                    -webkit-animation-iteration-count: infinite;
+                    -webkit-animation-timing-function: linear;
+            }
+            </style>
                 <style>
                 input:focus {
                     border-color: red;
@@ -80,7 +106,7 @@
         
         <!-- /col-3 -->
         <div class="col-sm-12">
-            <h3 style="text-align: center;color:black; font-weight: 900;">Daily Evaluation of Retention Form</h3>
+            <h3 style="text-align: center;color:black; font-weight: 900;">Daily Evaluation of Retention Form <div style="font-size: 14px; color: green;">V 1.0.0.3 [2018-11-09]</div></h3>
             
             <div class="row">
                 <!-- center left-->
@@ -92,10 +118,16 @@
                             <br> Refresh
                         </a>
                         
-                        <a href="#" class="btn btn-primary col-sm-3" id="upload_data">
+                        <a href="#" class="btn col-sm-3 shake btn-danger btn-lg" id="upload_data">
                             <i class="glyphicon glyphicon-upload"></i>
-                            <div id="toupload"></div>
+                            <div id="toupload" style="font-size: 18px; font-weight: 900;"></div>
                         </a>
+                        
+                        <a href="#" class="btn btn-primary col-sm-1" style="background: green;font-size: 17px; font-weight: 400;" id="export">
+                            <i class="glyphicon glyphicon-download-alt"></i>
+                             Download Data as Excel
+                        </a>
+                       
                          </div>
 
                     <hr>
@@ -126,6 +158,20 @@
                                         <!--<br>-->   
                                         <select name="user" id="user">
                                             <option value="">Select User</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                        </td></tr>
+                                
+                                <tr><td id="delivery_label" class="col-xs-10">
+                                <div class="control-group">
+                                    <label>Delivery Point<font color="red"><b>*</b></font></label>
+                                    <div class="controls">
+                                        <!--<br>-->   
+                                        <select name="delivery_point" id="delivery_point">
+                                            <option value="">Select Delivery Point</option>
+                                            <option value="1">CCC</option>
+                                            <option value="2">PMTCT</option>
                                         </select>
                                     </div>
                                 </div>
@@ -220,7 +266,11 @@
 
           <div id="prev_month"></div> 
 
-
+  <table id="table_data" class="table" style="margin-left: 50px; margin-right: 50px; width: 95%;" hidden="true">
+          <thead><tr><th>ID</th><th>Date</th><th>Delivery Point</th><th>Year</th><th>Month</th><th>Indicator</th><th>MFLCode</th><th>Value</th><th>Date Key</th><th>Phone</th><th>Timestamp</th><th>Timestamp</th>  </tr></thead>
+          <tbody id="data"> </tbody>
+        </table>
+	
             
         </div>
         <!--/col-span-9-->
@@ -459,7 +509,9 @@
                         $("#month").val(options);
                         
                         var facilityID=$("#facilityname").val();
-                         if(facilityID!="" && current_date!=""){
+                        var delivery_point=$("#delivery_point").val();
+                        
+                         if(facilityID!="" && current_date!="" && delivery_point!=""){
                              load_indicators();
                          }
                     }
@@ -491,10 +543,13 @@
                      function load_indicators(){
                     var date = $("#date").val();
                     var facilityID = $("#facilityname").val();
+                    var delivery_point = $("#delivery_point").val();
+                    
                     if(date==null){date = "";}
                     if(facilityID==null){facilityID = "";}
+                    if(delivery_point==null){delivery_point = "";}
 //                    alert("facil:"+facilityID+":");
-                    if(facilityID!="" && date!=""){
+                    if(facilityID!="" && date!="" && delivery_point!=""){
                     
                     var yesterday = getYesterdaysDate(date);
                         get_yesterday_data(yesterday);
@@ -517,7 +572,7 @@
                     
                     if(facilityID!="" && date!="" && indicatorsID!=""){
                         date = date.replace(/[-]/g,"");
-                  var id= date+"_"+facilityID+"_"+indicatorsID;
+                  var id= date+"_"+facilityID+"_"+indicatorsID+"_"+delivery_point;
                 
                 
                 
@@ -544,7 +599,7 @@
                     indicatorsID=indicators[added].IndicatorID;
                     isactive=indicators[added].isactive;
                     $("#savebutton").show();
-                    id= date+"_"+facilityID+"_"+indicatorsID;
+                    id= date+"_"+facilityID+"_"+indicatorsID+"_"+delivery_point;
                      var has_valid = 0;
                     var others_keyup = " onblur='";
                     var others = "";
@@ -632,6 +687,7 @@
                  <script type="text/javascript">
                 $(document).ready(function(){
                         $("#user").select2();
+                        $("#delivery_point").select2(); 
                           read_all_users();// load users for deleting
                          $('.dates').datepicker({
                              todayHighlight: true, clearBtn: true, autoclose: true,format: "yyyy-mm-dd"
@@ -640,8 +696,19 @@
                         
                         $("#facilityname").change(function(){
                          var facilityID=$("#facilityname").val();
+                         var delivery_point=$("#delivery_point").val();
+                         
                          var date = $("#date").val();
-                         if(facilityID!="" && date!=""){
+                         if(facilityID!="" && date!="" && delivery_point!=""){
+                             load_indicators();
+                         }
+                        });
+                        
+                        $("#delivery_point").change(function(){
+                         var facilityID=$("#facilityname").val();
+                         var delivery_point=$("#delivery_point").val();
+                         var date = $("#date").val();
+                         if(facilityID!="" && date!="" && delivery_point!=""){
                              load_indicators();
                          }
                         });
@@ -682,14 +749,16 @@ function save_data(){
     if(compare_cumulatives()){
         
     progress(10);
-    var id,reporting_date,year,month,mflcode,indic_value,date,phone;
+    var id,reporting_date,year,month,mflcode,indic_value,date,phone,delivery_point;
         
      reporting_date = $("#date").val() ;
      year = $("#year").val() ;
      month = $("#month").val() ;
      mflcode = $("#facilityname").val(); 
+     delivery_point = $("#delivery_point").val(); 
+     
      date = reporting_date.replace(/[-]/g,"");
-     id = date+"_"+mflcode;
+     id = date+"_"+mflcode+"_"+delivery_point;
      phone = $("#user").val();
      
      if(phone!=""){// has use added
@@ -717,7 +786,7 @@ function save_data(){
          
     for( var a=0;a< indic_count; a++){
     var indicatorsID=indicators[a].IndicatorID;  
-     id = date+"_"+mflcode+"_"+indicatorsID;   
+     id = date+"_"+mflcode+"_"+indicatorsID+"_"+delivery_point;   
      indic_value = $("#"+id).val();
      var timeStamp = new Date().toUTCString();
 //          alert("id is  : "+id+" value is : "+indic_value); 
@@ -726,6 +795,7 @@ if(_rev==""){
      var obj_item ={ 
         _id: id,
         date: reporting_date,
+        delivery_point: delivery_point,
         year: year,
         month: month,
         mflcode: mflcode,
@@ -741,6 +811,7 @@ if(_rev==""){
         _id: id,
         _rev: _rev,
         date: reporting_date,
+        delivery_point: delivery_point,
         year: year,
         month: month,
         mflcode: mflcode,
@@ -823,11 +894,13 @@ else{
     
     function delete_records(){
         $("#savebutton").html('Save');
-   var id,reporting_date,mflcode,date;
+   var id,reporting_date,mflcode,date,delivery_point;
      reporting_date = $("#date").val() ;
      mflcode = $("#facilityname").val(); 
+     delivery_point = $("#delivery_point").val(); 
+     
      date = reporting_date.replace(/[-]/g,"");
-   var delete_id =  date+"_"+mflcode;
+   var delete_id =  date+"_"+mflcode+"_"+delivery_point;
    
    //add the record to the deleted log
     db_delete.put({
@@ -857,7 +930,7 @@ else{
          
     for( var a=0;a< indic_count; a++){
     var indicatorsID=indicators[a].IndicatorID;  
-     id = date+"_"+mflcode+"_"+indicatorsID;
+     id = date+"_"+mflcode+"_"+indicatorsID+"_"+delivery_point;
      $("#"+id).val("");
 //          alert("id is  : "+id+" value is : "+indic_value); 
     var _rev = $("#_rev_"+id).val();
@@ -882,7 +955,6 @@ function send_data(){
             }).then(function (result) {
               // handle result
               var data = JSON.stringify(result);
-
              var form_data = {"results":data};
             progress(25);
         $.post(url,form_data,function(output){
@@ -900,7 +972,15 @@ function send_data(){
         }
         else{
            progress(75);
-           send_users();            
+           send_users(); 
+           
+            db.destroy(function (err, response) {
+            if (err) {
+              console.log(err);
+            } else {
+                console.log(response);
+            }
+          });
         }
          });  
             }).catch(function (err) {
@@ -1037,33 +1117,37 @@ function waitnhide(){
 
 
 function totalclients(){
-var date,reporting_date,mflcode,ind2=0,ind3=0,ind4=0,ind5=0;
+var date,reporting_date,mflcode,ind2=0,ind3=0,ind4=0,ind5=0,delivery_point;
 
     reporting_date = $("#date").val() ;
     mflcode = $("#facilityname").val(); 
+    delivery_point = $("#delivery_point").val(); 
+    
     date = reporting_date.replace(/[-]/g,"");
     
-    if($("#"+date+"_"+mflcode+"_2").val()!=""){ind2 = $("#"+date+"_"+mflcode+"_2").val();}
-    if($("#"+date+"_"+mflcode+"_3").val()!=""){ind3 = $("#"+date+"_"+mflcode+"_3").val();}
-    if($("#"+date+"_"+mflcode+"_4").val()!=""){ind4 = $("#"+date+"_"+mflcode+"_4").val();}
-    if($("#"+date+"_"+mflcode+"_5").val()!=""){ind5 = $("#"+date+"_"+mflcode+"_5").val();}
+    if($("#"+date+"_"+mflcode+"_2_"+delivery_point).val()!=""){ind2 = $("#"+date+"_"+mflcode+"_2_"+delivery_point).val();}
+    if($("#"+date+"_"+mflcode+"_3_"+delivery_point).val()!=""){ind3 = $("#"+date+"_"+mflcode+"_3_"+delivery_point).val();}
+    if($("#"+date+"_"+mflcode+"_4_"+delivery_point).val()!=""){ind4 = $("#"+date+"_"+mflcode+"_4_"+delivery_point).val();}
+    if($("#"+date+"_"+mflcode+"_5_"+delivery_point).val()!=""){ind5 = $("#"+date+"_"+mflcode+"_5_"+delivery_point).val();}
    
     var total = parseInt(ind2)+parseInt(ind3)+parseInt(ind4)+parseInt(ind5);
-    $("#"+date+"_"+mflcode+"_6").val(total);
+    $("#"+date+"_"+mflcode+"_6_"+delivery_point).val(total);
      
 }
 function missedclients(){
-var date,reporting_date,mflcode,ind1=0,ind2=0;
+var date,reporting_date,mflcode,ind1=0,ind2=0,delivery_point;
 
     reporting_date = $("#date").val() ;
     mflcode = $("#facilityname").val(); 
+    delivery_point = $("#delivery_point").val(); 
+    
     date = reporting_date.replace(/[-]/g,"");
     
-    if($("#"+date+"_"+mflcode+"_1").val()!=""){ind1 = $("#"+date+"_"+mflcode+"_1").val();}
-    if($("#"+date+"_"+mflcode+"_2").val()!=""){ind2 = $("#"+date+"_"+mflcode+"_2").val();}
+    if($("#"+date+"_"+mflcode+"_1_"+delivery_point).val()!=""){ind1 = $("#"+date+"_"+mflcode+"_1_"+delivery_point).val();}
+    if($("#"+date+"_"+mflcode+"_2_"+delivery_point).val()!=""){ind2 = $("#"+date+"_"+mflcode+"_2_"+delivery_point).val();}
    
     var total = parseInt(ind1)-parseInt(ind2);
-    $("#"+date+"_"+mflcode+"_7").val(total);
+    $("#"+date+"_"+mflcode+"_7_"+delivery_point).val(total);
 }
 
 
@@ -1077,67 +1161,94 @@ function reloading(){
 }
 
 function checkdata(){
-    var indic1=0,indic2=0,indic10=0,indic11=0;
+    var indic1=0,indic2=0,indic10=0,indic11=0,delivery_point;
     var date,reporting_date,mflcode;
     var returned=true;
     reporting_date = $("#date").val() ;
     mflcode = $("#facilityname").val(); 
+    
+    delivery_point = $("#delivery_point").val(); 
+    
     date = reporting_date.replace(/[-]/g,"");
     
-            if($("#"+date+"_"+mflcode+"_1").val()!=""){indic1 = $("#"+date+"_"+mflcode+"_1").val();}
-            if($("#"+date+"_"+mflcode+"_2").val()!=""){indic2 = $("#"+date+"_"+mflcode+"_2").val();}
-            if($("#"+date+"_"+mflcode+"_10").val()!=""){indic10 = $("#"+date+"_"+mflcode+"_10").val();}
-            if($("#"+date+"_"+mflcode+"_11").val()!=""){indic11 = $("#"+date+"_"+mflcode+"_11").val();}
-            
-           if(indic2>indic1){
+            if($("#"+date+"_"+mflcode+"_1_"+delivery_point).val()!=""){indic1 = $("#"+date+"_"+mflcode+"_1_"+delivery_point).val();}
+            if($("#"+date+"_"+mflcode+"_2_"+delivery_point).val()!=""){indic2 = $("#"+date+"_"+mflcode+"_2_"+delivery_point).val();}
+            if($("#"+date+"_"+mflcode+"_10_"+delivery_point).val()!=""){indic10 = $("#"+date+"_"+mflcode+"_10_"+delivery_point).val();}
+            if($("#"+date+"_"+mflcode+"_11_"+delivery_point).val()!=""){indic11 = $("#"+date+"_"+mflcode+"_11_"+delivery_point).val();}
+//            alert("code 2:"+indic2+" code 1:"+indic1);
+           if(parseInt(indic2)>parseInt(indic1)){
                returned = false;
 //               error for both
-            $("#"+date+"_"+mflcode+"_1").css("border-color", "#e60000");
-            $("#"+date+"_"+mflcode+"_2").css("border-color", "#e60000");
-            $("#"+date+"_"+mflcode+"_1").css("background-color", "#ff6666");
-            $("#"+date+"_"+mflcode+"_2").css("background-color", "#ff6666");
+            $("#"+date+"_"+mflcode+"_1_"+delivery_point).css("border-color", "#e60000");
+            $("#"+date+"_"+mflcode+"_2_"+delivery_point).css("border-color", "#e60000");
+            $("#"+date+"_"+mflcode+"_1_"+delivery_point).css("background-color", "#ff6666");
+            $("#"+date+"_"+mflcode+"_2_"+delivery_point).css("background-color", "#ff6666");
+            
+           var title = "Error in Calculation";
+           var text = "Kindly value in Code no 2 is greater than value in code 1.";
+           var icon = "error";
+           var button = "Close";
+           
+           notify(title,text,icon,button);
+           
+            $("#"+date+"_"+mflcode+"_1_"+delivery_point).attr("title", "Indicator Code 2 is greater than indicator code 1");
+            $("#"+date+"_"+mflcode+"_2_"+delivery_point).attr("title", "Indicator Code 2 is greater than indicator code 1");
            } 
            else{
            returned = true;   
-            $("#"+date+"_"+mflcode+"_1").css("border-color", "#0069cc");
-            $("#"+date+"_"+mflcode+"_2").css("border-color", "#0069cc");
-            $("#"+date+"_"+mflcode+"_1").css("background-color", "#ffffff");
-            $("#"+date+"_"+mflcode+"_2").css("background-color", "#ffffff");
+            $("#"+date+"_"+mflcode+"_1_"+delivery_point).css("border-color", "#0069cc");
+            $("#"+date+"_"+mflcode+"_2_"+delivery_point).css("border-color", "#0069cc");
+            $("#"+date+"_"+mflcode+"_1_"+delivery_point).css("background-color", "#ffffff");
+            $("#"+date+"_"+mflcode+"_2_"+delivery_point).css("background-color", "#ffffff");
+            
            }
-          if(indic11>indic10){
+          if(parseInt(indic11)>parseInt(indic10)){
              returned = false;
-            $("#"+date+"_"+mflcode+"_10").css("border-color", "#e60000");
-            $("#"+date+"_"+mflcode+"_11").css("border-color", "#e60000");
-            $("#"+date+"_"+mflcode+"_10").css("background-color", "#ff6666");
-            $("#"+date+"_"+mflcode+"_11").css("background-color", "#ff6666");
+            $("#"+date+"_"+mflcode+"_10_"+delivery_point).css("border-color", "#e60000");
+            $("#"+date+"_"+mflcode+"_11_"+delivery_point).css("border-color", "#e60000");
+            $("#"+date+"_"+mflcode+"_10_"+delivery_point).css("background-color", "#ff6666");
+            $("#"+date+"_"+mflcode+"_11_"+delivery_point).css("background-color", "#ff6666");
+            
+            $("#"+date+"_"+mflcode+"_10_"+delivery_point).attr("title", "Indicator Code 11 is greater than indicator code 10");
+            $("#"+date+"_"+mflcode+"_11_"+delivery_point).attr("title", "Indicator Code 11 is greater than indicator code 10");
+            
+           var title = "Error in Calculation";
+           var text = "Kindly value in Code no 11 is greater than value in code 10.";
+           var icon = "error";
+           var button = "Close";
+           
+           notify(title,text,icon,button);
           }
           else{
               returned = true;
               
-            $("#"+date+"_"+mflcode+"_10").css("border-color", "#0069cc");
-            $("#"+date+"_"+mflcode+"_11").css("border-color", "#0069cc");
-            $("#"+date+"_"+mflcode+"_10").css("background-color", "#ffffff");
-            $("#"+date+"_"+mflcode+"_11").css("background-color", "#ffffff");
+            $("#"+date+"_"+mflcode+"_10_"+delivery_point).css("border-color", "#0069cc");
+            $("#"+date+"_"+mflcode+"_11_"+delivery_point).css("border-color", "#0069cc");
+            $("#"+date+"_"+mflcode+"_10_"+delivery_point).css("background-color", "#ffffff");
+            $("#"+date+"_"+mflcode+"_11_"+delivery_point).css("background-color", "#ffffff");
           }
            
     return returned;
 }
+
 function checkif_allexist(){
-    var date,reporting_date,mflcode,missing=0;
+    var date,reporting_date,mflcode,missing=0,delivery_point;
     var returned=true;
     reporting_date = $("#date").val() ;
     mflcode = $("#facilityname").val(); 
+    delivery_point = $("#delivery_point").val(); 
+    
     date = reporting_date.replace(/[-]/g,"");
     for(var i=1;i<=14;i++){
-        if($("#"+date+"_"+mflcode+"_"+i).val()=="")
+        if($("#"+date+"_"+mflcode+"_"+i+"_"+delivery_point).val()=="")
         {
         missing++;
-        $("#"+date+"_"+mflcode+"_"+i).css("border-color", "#e60000");
-        $("#"+date+"_"+mflcode+"_"+i).css("background-color", "#ff6666");
+        $("#"+date+"_"+mflcode+"_"+i+"_"+delivery_point).css("border-color", "#e60000");
+        $("#"+date+"_"+mflcode+"_"+i+"_"+delivery_point).css("background-color", "#ff6666");
         }
         else{
-         $("#"+date+"_"+mflcode+"_"+i).css("border-color", "#0069cc");
-         $("#"+date+"_"+mflcode+"_"+i).css("background-color", "#ffffff");   
+         $("#"+date+"_"+mflcode+"_"+i+"_"+delivery_point).css("border-color", "#0069cc");
+         $("#"+date+"_"+mflcode+"_"+i+"_"+delivery_point).css("background-color", "#ffffff");   
         }
     }
     if(missing>0){
@@ -1184,27 +1295,29 @@ function notify(title,text,icon,button){
 }
 
 function check_values_on1st(){
-    var date,reporting_date,mflcode,indic3="",indic11="",indic12="";
+    var date,reporting_date,mflcode,indic3="",indic11="",indic12="",delivery_point;
     var returned=true;
     reporting_date = $("#date").val() ;
     if(reporting_date.endsWith("-01")){
     mflcode = $("#facilityname").val(); 
+    delivery_point = $("#delivery_point").val(); 
+    
     date = reporting_date.replace(/[-]/g,"");
     
-    indic3=$("#"+date+"_"+mflcode+"_3").val();
-    indic11=$("#"+date+"_"+mflcode+"_11").val();
-    indic12=$("#"+date+"_"+mflcode+"_12").val();
+    indic3=$("#"+date+"_"+mflcode+"_3_"+delivery_point).val();
+    indic11=$("#"+date+"_"+mflcode+"_11_"+delivery_point).val();
+    indic12=$("#"+date+"_"+mflcode+"_12_"+delivery_point).val();
     if(indic3==""){indic3=0;}
     if(indic11==""){indic11=0;}
     if(indic12==""){indic12=0;}
     
     if(parseInt(indic11)>parseInt(indic3))
     {
-        $("#"+date+"_"+mflcode+"_3").css("border-color", "#e60000");
-        $("#"+date+"_"+mflcode+"_3").css("background-color", "#ff6666");
+        $("#"+date+"_"+mflcode+"_3_"+delivery_point).css("border-color", "#e60000");
+        $("#"+date+"_"+mflcode+"_3_"+delivery_point).css("background-color", "#ff6666");
         
-        $("#"+date+"_"+mflcode+"_11").css("border-color", "#e60000");
-        $("#"+date+"_"+mflcode+"_11").css("background-color", "#ff6666");
+        $("#"+date+"_"+mflcode+"_11_"+delivery_point).css("border-color", "#e60000");
+        $("#"+date+"_"+mflcode+"_11_"+delivery_point).css("background-color", "#ff6666");
                 returned = false;
                 
           var title = "Error. Incorrect values";
@@ -1217,11 +1330,11 @@ function check_values_on1st(){
     
     if(parseInt(indic12)>parseInt(indic3))
     {
-        $("#"+date+"_"+mflcode+"_3").css("border-color", "#e60000");
-        $("#"+date+"_"+mflcode+"_3").css("background-color", "#ff6666");
+        $("#"+date+"_"+mflcode+"_3_"+delivery_point).css("border-color", "#e60000");
+        $("#"+date+"_"+mflcode+"_3_"+delivery_point).css("background-color", "#ff6666");
         
-        $("#"+date+"_"+mflcode+"_12").css("border-color", "#e60000");
-        $("#"+date+"_"+mflcode+"_12").css("background-color", "#ff6666");
+        $("#"+date+"_"+mflcode+"_12_"+delivery_point).css("border-color", "#e60000");
+        $("#"+date+"_"+mflcode+"_12_"+delivery_point).css("background-color", "#ff6666");
                 returned = false;
                 
            var title = "Error. Incorrect values";
@@ -1258,12 +1371,14 @@ function getYesterdaysDate(reporting_date) {
 
 function get_yesterday_data(reporting_date){
      var mflcode = $("#facilityname").val(); 
+     var delivery_point = $("#delivery_point").val();
+     
      var date = reporting_date.replace(/[-]/g,"");
     var id="",output="",_rev="",value="";
     var indic_id=10;
   for(var i=10;i<=14;i++){
       
-   id = date+"_"+mflcode+"_"+i;
+   id = date+"_"+mflcode+"_"+i+"_"+delivery_point;
 //   alert("i:"+i);
   
       db.get(id, function(err, doc) {
@@ -1275,7 +1390,7 @@ function get_yesterday_data(reporting_date){
             value = doc.value; 
        }
        
-     id = date+"_"+mflcode+"_"+indic_id;  
+     id = date+"_"+mflcode+"_"+indic_id+"_"+delivery_point;  
     output+="<input required type='hidden' min ='0' max='5237' value='"+value+"'  name='"+id+"' id='"+id+"' class='form-control data'>"; 
 //    alert(output);
     $("#prev_month").html(output); 
@@ -1297,12 +1412,14 @@ function compare_cumulatives(){
         
     var yesterday = getYesterdaysDate(reporting_date) ;
    var mflcode = $("#facilityname").val(); 
+   var delivery_point = $("#delivery_point").val(); 
+   
    var date = reporting_date.replace(/[-]/g,"");
    var date_yester = yesterday.replace(/[-]/g,"");
    var id="",id_yester="",value="",value_yester="";
    for(var i=10;i<=14;i++){
-   id = date+"_"+mflcode+"_"+i;
-   id_yester = date_yester+"_"+mflcode+"_"+i;
+   id = date+"_"+mflcode+"_"+i+"_"+delivery_point;
+   id_yester = date_yester+"_"+mflcode+"_"+i+"_"+delivery_point;
    
    value = $("#"+id).val();
    value_yester= $("#"+id_yester).val();
@@ -1500,5 +1617,98 @@ db_user.remove(phone,_rev, function(err, response) {
   });
 }
  </script>
+ 
+ 
+                 <script>
+                     
+                   $("#export").click(function(){
+                       exportTableToExcel("table_data","Exported_DER_Data");
+                       
+//                        db.destroy(function (err, response) {
+//                        if (err) {
+//                          console.log(err);
+//                        } else {
+//                            console.log(response);
+//                        }
+//                      });
+                   });
+                   
+                   
+                db.allDocs({
+                  include_docs: true,
+                  attachments: true
+                }).then(function (result) {
+                  // handle result
+//              var data = JSON.stringify(result);
+//		alert("data:"+data);
+//		console.log(data);
+
+                 $("#records").html(result.total_rows+" Records Found");
+               var rows = result.rows;
+//               console.log(result.rows);
+              var output="";
+            var date,delivery_point,year,month,mflcode,indicator,value,phone,timestamp,_id,_rev;
+//    alert("len : "+rows.length);
+               for(var i=0;i<rows.length;i++){
+                        date = rows[i].doc.date;
+                        delivery_point = rows[i].doc.delivery_point;
+                        year = rows[i].doc.year;
+                        month = rows[i].doc.month;
+                        mflcode = rows[i].doc.mflcode;
+                        indicator = rows[i].doc.indicator;
+                        value = rows[i].doc.value;
+                        phone = rows[i].doc.phone;
+                        timestamp = rows[i].doc.timestamp;
+                        _id = rows[i].doc._id;
+                        _rev= rows[i].doc._rev;  
+                        
+                output+="<tr><td>"+_id+"</td><td>"+date+"</td><td>"+delivery_point+"</td><td>"+year+"</td><td>"+month+"</td><td>"+indicator+"</td><td>"+mflcode+"</td><td>"+value+"</td><td>"+date+"</td><td>"+phone+"</td><td>"+timestamp+"</td><td>"+timestamp+"</td></tr>";        
+                $("#data").html(output); 
+            }
+                 
+//              $("#data").html(output);   
+                 
+                 
+                 
+                 
+//                 var form_data = {"results":data};
+//                 alert("data:"+data);
+                }).catch(function (err) {
+                  console.log(err);
+                });
+						  
+				  
+	
+    function exportTableToExcel(tableID, filename = ''){
+    var downloadLink;
+    var dataType = 'application/vnd.ms-excel';
+    var tableSelect = document.getElementById(tableID);
+    var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+    
+    // Specify file name
+    filename = filename?filename+'.xls':'excel_data.xls';
+    
+    // Create download link element
+    downloadLink = document.createElement("a");
+    
+    document.body.appendChild(downloadLink);
+    
+    if(navigator.msSaveOrOpenBlob){
+        var blob = new Blob(['\ufeff', tableHTML], {
+            type: dataType
+        });
+        navigator.msSaveOrOpenBlob( blob, filename);
+    }else{
+        // Create a link to the file
+        downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+    
+        // Setting the file name
+        downloadLink.download = filename;
+        
+        //triggering the function
+        downloadLink.click();
+    }
+}
+                 </script>
 	</body>
 </html>
