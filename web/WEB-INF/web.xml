@@ -24,6 +24,22 @@
         <servlet-name>save_users</servlet-name>
         <servlet-class>DER.save_users</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>load_counties</servlet-name>
+        <servlet-class>Loaders.load_counties</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>load_district</servlet-name>
+        <servlet-class>Loaders.load_district</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>load_facilities</servlet-name>
+        <servlet-class>Loaders.load_facilities</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RawData</servlet-name>
+        <servlet-class>Reports.RawData</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>copytemplates</servlet-name>
         <url-pattern>/copytemplates</url-pattern>
@@ -47,6 +63,22 @@
     <servlet-mapping>
         <servlet-name>save_users</servlet-name>
         <url-pattern>/save_users</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>load_counties</servlet-name>
+        <url-pattern>/load_counties</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>load_district</servlet-name>
+        <url-pattern>/load_district</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>load_facilities</servlet-name>
+        <url-pattern>/load_facilities</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RawData</servlet-name>
+        <url-pattern>/RawData</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

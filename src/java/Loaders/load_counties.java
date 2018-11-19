@@ -3,31 +3,43 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package DER;
+package Loaders;
 
+import database.dbConn;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.*;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.json.simple.JSONObject;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author GNyabuto
  */
-public class checkinternet extends HttpServlet {
-
+public class load_counties extends HttpServlet {
+HttpSession session;
+String output="";
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            JSONObject obj = new JSONObject();
-//            obj.put("isreacheable", checknet());
-            obj.put("isreacheable", checknetnow());
-            out.println(obj);
+            session = request.getSession();
+            dbConn conn = new dbConn();
+            
+                    
+            output = "";
+            String load_counties = "SELECT CountyID, County FROM county ORDER BY County";
+            conn.rs = conn.st.executeQuery(load_counties);
+            while(conn.rs.next()){
+              output+="<option value=\""+conn.rs.getString(1)+"\">"+conn.rs.getString(2)+"</option>";
+            }
+            
+            out.println(output);
         }
     }
 
@@ -43,7 +55,11 @@ public class checkinternet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+    try {
         processRequest(request, response);
+    } catch (SQLException ex) {
+        Logger.getLogger(load_counties.class.getName()).log(Level.SEVERE, null, ex);
+    }
     }
 
     /**
@@ -57,7 +73,11 @@ public class checkinternet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+    try {
         processRequest(request, response);
+    } catch (SQLException ex) {
+        Logger.getLogger(load_counties.class.getName()).log(Level.SEVERE, null, ex);
+    }
     }
 
     /**
@@ -70,46 +90,4 @@ public class checkinternet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    
- public boolean checknet(){
-     boolean isreachable = false;
-        try{
-            int timeOutInMilliSec=5000;// 5 Seconds
-            URL url = new URL("http://www.google.com/");
-            HttpURLConnection conn = (HttpURLConnection)url.openConnection();
-            conn.setRequestMethod("HEAD");
-            conn.setConnectTimeout(timeOutInMilliSec);
-            conn.setReadTimeout(timeOutInMilliSec);
-            int responseCode = conn.getResponseCode();
-            if(200 <= responseCode && responseCode <= 399){
-                System.out.println("Internet is Available");
-                isreachable = true;
-            }
-        }
-        catch(Exception ex){
-            System.out.println("No Connectivity");
-            isreachable = false;
-        }
-        
-        return isreachable;
-    }  
-
-public boolean checknetnow(){
-    try{
-            String host="google.com";
-            int port=80;
-            int timeOutInMilliSec=5000;// 5 Seconds
-            Socket socket = new Socket();
-            socket.connect(new InetSocketAddress(host, port), timeOutInMilliSec);
-            System.out.println("Internet is Available");
-            
-            return true;
-        }
-        catch(IOException ex){
-            System.out.println("No Connectivity");
-            
-            return false;
-        }
-} 
-    
 }

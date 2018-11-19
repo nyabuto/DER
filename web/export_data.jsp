@@ -6,8 +6,8 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html  manifest="der.appcache">
-<!--<html>-->
+<!--<html  manifest="der.appcache">-->
+<html>
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 		<meta charset="utf-8">
@@ -31,15 +31,18 @@
                 
 	</head>
 	<body>
-	<div  style="margin-top:1%; margin-left: 40%;">
+            <div style="margin-top:2%;">
+                <div style=" margin-left: 10%;"><a href="index.jsp"><img src="images/back.png" style="height: 5%; width: 5%;"><b style="font-size: 200%;">Go Back</b></a></div>
+	<div  style="margin-left: 40%; margin-top: -4%">
           <table>  <tr><td>
 	<h3 id="records">Records to be exported</h3></td>
                   <td><button type="button" id="export" class="btn btn-success" style="margin-left: 50%" >Export Data to Excel</button></td>
         </tr></table>
 	</div>
-            	
-            <table id="table_data" class="table" style="margin-left: 50px; margin-right: 50px; width: 95%;" hidden="true">
-          <thead><tr><th>ID</th><th>Date</th><th>Delivery Point</th><th>Year</th><th>Month</th><th>Indicator</th><th>MFLCode</th><th>Value</th><th>Date Key</th><th>Phone</th><th>Timestamp</th><th>Timestamp</th>  </tr></thead>
+           </div> 
+            <br>
+            <table id="table_data" class="table" style="margin-left: 50px; margin-right: 50px; width: 95%;">
+          <thead><tr><th hidden="true">ID</th><th>Date</th><th>Delivery Point</th><th>Year</th><th>Month</th><th>Indicator</th><th>MFLCode</th><th>Value</th><th hidden="true">Date Key</th><th>Phone</th><th hidden="true">Timestamp</th><th>Timestamp</th>  </tr></thead>
           <tbody id="data"> </tbody>
         </table>
 	
@@ -71,8 +74,12 @@
 //              var data = JSON.stringify(result);
 //		alert("data:"+data);
 //		console.log(data);
-
-                 $("#records").html(result.total_rows+" Records Found");
+                if(result.total_rows>0){
+                 $("#records").html(((result.total_rows-1)/14)+" Records Found");
+                }
+                else{
+                  $("#records").html(result.total_rows+" Records Found");  
+                }
                var rows = result.rows;
 //               console.log(result.rows);
               var output="";
@@ -90,9 +97,10 @@
                         timestamp = rows[i].doc.timestamp;
                         _id = rows[i].doc._id;
                         _rev= rows[i].doc._rev;  
-                        
-                output+="<tr><td>"+_id+"</td><td>"+date+"</td><td>"+delivery_point+"</td><td>"+year+"</td><td>"+month+"</td><td>"+indicator+"</td><td>"+mflcode+"</td><td>"+value+"</td><td>"+date+"</td><td>"+phone+"</td><td>"+timestamp+"</td><td>"+timestamp+"</td></tr>";        
+              if(date!==undefined)  {    
+                output+="<tr><td hidden=\"true\">"+_id+"</td><td>"+date+"</td><td>"+delivery_point+"</td><td>"+year+"</td><td>"+month+"</td><td>"+indicator+"</td><td>"+mflcode+"</td><td>"+value+"</td><td hidden=\"true\">"+date+"</td><td>"+phone+"</td><td  hidden=\"true\">"+timestamp+"</td><td>"+timestamp+"</td></tr>";        
                 $("#data").html(output); 
+                  }
             }
                  
 //              $("#data").html(output);   

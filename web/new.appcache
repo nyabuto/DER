@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 2018-09-03 v1.0.3 //able to export data to excel incase backup fails
+# 2018-09-03 v2.0.1
 
 #css files
 css/dataTables.bootstrap.min.css
@@ -50,6 +50,8 @@ fonts/glyphicons-halflings-regular.svg
 
 NETWORK:
 #index.jsp
+#export_data.jsp
+#excelreport.jsp
 
 FALLBACK:
 #/html/ /offline.html

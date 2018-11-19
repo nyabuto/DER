@@ -8,8 +8,8 @@
 
 
 <!DOCTYPE html>
-<html  manifest="der.appcache">
-<!--<html>-->
+<!--<html  manifest="new.appcache">-->
+<html>
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 		<meta charset="utf-8">
@@ -56,7 +56,51 @@
                 }
                 .select2-container{ width: 100% !important; }
                 </style>
-                
+ <style>
+.dropbtn {
+    /*background-color: #4CAF50;*/
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    text-align: left;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 10px;
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 1px 10px 10px 6px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {background-color: #cbe5fe;}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: #3e8e41;
+}
+</style>
 	</head>
 	<body>
 <!-- header -->
@@ -78,7 +122,15 @@
                         <li><a href="#">My Profile</a></li>
                     </ul>
                 </li>
-                 <li>
+                <li class="dropdown dropbtn"><i class="glyphicon glyphicon-download"></i> Reports
+                    <ul class="dropdown-content">
+                        
+                <a title="Generate Raw Data" id="raw_data" data-toggle="modal" href="#raw_data_popup"><span id="usernamelabel" style="color: black;">Raw Data & Reporting Rates</span></a>
+                <!--<a title="Generate Raw Data" id="raw_data" data-toggle="modal" href="#raw_data_popup"><span id="usernamelabel" style="color: black;">Reporting Rates</span></a>-->
+                <!--<a title="Generate Raw Data" id="raw_data" data-toggle="modal" href="#raw_data_popup"><span id="usernamelabel" style="color: black;">Dashboards</span></a>-->
+                 </ul>
+                </li>
+                <li>
                      <a title="Add Widget" id="manageuserbutton" data-toggle="modal" href="#allusersinfo">
                          <i class="glyphicon glyphicon-user glyphicon-remove"></i>
                          <span id="usernamelabel">Remove Users</span></a>
@@ -106,8 +158,8 @@
         
         <!-- /col-3 -->
         <div class="col-sm-12">
-            <h3 style="text-align: center;color:black; font-weight: 900;">Daily Evaluation of Retention Form <div style="font-size: 14px; color: green;">V 1.0.0.3 [2018-11-09]</div></h3>
-            
+            <h3 style="text-align: center;color:black; font-weight: 900;">Daily Evaluation of Retention Form <div style="font-size: 14px; color: green;">v 2.0.0.1 [2018-11-13]</div></h3>
+            <input type="hidden" id="records" name="records" value="0">
             <div class="row">
                 <!-- center left-->
                 <div class="col-md-12">
@@ -123,10 +175,10 @@
                             <div id="toupload" style="font-size: 18px; font-weight: 900;"></div>
                         </a>
                         
-                        <a href="#" class="btn btn-primary col-sm-1" style="background: green;font-size: 17px; font-weight: 400;" id="export">
+<!--                        <a href="#" id="download_data" class="btn btn-primary col-sm-1" style="background: green;font-size: 17px; font-weight: 400;" id="export">
                             <i class="glyphicon glyphicon-download-alt"></i>
                              Download Data as Excel
-                        </a>
+                        </a>-->
                        
                          </div>
 
@@ -170,7 +222,7 @@
                                         <!--<br>-->   
                                         <select name="delivery_point" id="delivery_point">
                                             <option value="">Select Delivery Point</option>
-                                            <option value="1">CCC</option>
+                                            <option value="1" selected="true">CCC</option>
                                             <option value="2">PMTCT</option>
                                         </select>
                                     </div>
@@ -270,8 +322,7 @@
           <thead><tr><th>ID</th><th>Date</th><th>Delivery Point</th><th>Year</th><th>Month</th><th>Indicator</th><th>MFLCode</th><th>Value</th><th>Date Key</th><th>Phone</th><th>Timestamp</th><th>Timestamp</th>  </tr></thead>
           <tbody id="data"> </tbody>
         </table>
-	
-            
+	      
         </div>
         <!--/col-span-9-->
     </div>
@@ -393,7 +444,7 @@
         </button>
       </div>
         
-         <form id="exportdataform">
+   <form id="exportdataform">
         <div class="modal-body" style="font-weight: 200;">
             <div  class="row form-group">
                 <div class="col-xs-3" style="clear: left;"> <label for="name" class="control-label">FullName<font color="red">*</font></label> </div>
@@ -426,6 +477,68 @@
 </div>
 
 
+<!--Raw Data Report-->
+<div class="modal fade" id="raw_data_popup" role="modal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content" id="report_values">
+      <div class="modal-header">
+          <h4 class="modal-title" id="exampleModalLabel" style="text-align: center; font-weight: 900;"><u>Generate Raw Data & Reporting Rates Report</u></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+        
+   <form id="exportdataform">
+        <div class="modal-body" style="font-weight: 200;">
+            
+            <div  class="row form-group">
+                <div class="col-xs-3" style="clear: left;"> <label for="name" class="control-label">County<font color="red"></font></label> </div>
+                <div class="col-xs-8" style="padding: 3px 2px 3px 2px; float: left" >
+                <select  name="county" id="county" multiple="true" class="form-control"> 
+                <option value="">Choose County</option>  
+            </select>
+        </div>  
+      </div>
+                 
+      <div  class="row">
+         <div class="col-xs-3" style="clear: left;"> <label for="name" class="control-label">Sub County<font color="red"></font></label> </div>
+        <div  class="col-xs-8" style="padding: 3px 2px 3px 2px; float: left">
+            <select  name="district" id="district" multiple="true" class="form-control"> 
+                <option value="">Chose Sub County</option>  
+            </select>
+        </div>  
+      </div>
+            
+                 
+      <div  class="row">
+         <div class="col-xs-3" style="clear: left;"> <label for="name" class="control-label">Health Facility<font color="red"></font></label> </div>
+        <div  class="col-xs-8" style="padding: 3px 2px 3px 2px; float: left">
+            <select  name="facility" id="facility" multiple="true" class="form-control"> 
+                <option value="">Chose Facility</option>  
+            </select>
+        </div>  
+      </div>
+            
+      <div  class="row form-group">
+          <div class="col-xs-3" style="clear: left;"> <label for="name" class="control-label">Start Date<font color="red"></font></label> </div>
+        <div  class="col-xs-8" style="padding: 3px 2px 3px 2px; float: left"><input placeholder="Start Date" type="text" readonly name="start_date" id="start_date" class="form-control datepicker"> </div>  
+      </div>
+      <div  class="row form-group">
+          <div class="col-xs-3" style="clear: left;"> <label for="name" class="control-label">End Date</label> </div>
+        <div  class="col-xs-8" style="padding: 3px 2px 3px 2px; float: left"><input placeholder="End Date" type="text" readonly name="end_date" id="end_date" class="form-control datepicker"> </div>  
+      </div>
+            
+      </div>
+       </form>
+      <div class="modal-footer">
+        <button type="button" id="btn_rawdata" class="btn btn-primary btn-success" >Generate</button>
+      </div>
+    </div>
+      <div  class="modal-content" id="img_loading">
+<img src="images/loading.gif" style="width:100%">
+</div>
+  </div>
+</div>
 
 <!--Manage User-->
 <div class="modal fade" id="allusersinfo" role="modal" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -451,10 +564,9 @@
     </div>
   </div>
 </div>
-
-
 	<!-- script references -->
-        <script src="js/jquery.min.js"></script>
+                <!--<script src="js/jquery-2.1.4.min.js"></script>-->
+                <script src="js/jquery.min.js"></script>
 		<script src="js/bootstrap.js"></script>
 		<script src="js/scripts.js"></script>
                 <script src="js/bootstrap-datepicker.min.js"></script>
@@ -512,6 +624,7 @@
                         var delivery_point=$("#delivery_point").val();
                         
                          if(facilityID!="" && current_date!="" && delivery_point!=""){
+                             
                              load_indicators();
                          }
                     }
@@ -541,6 +654,8 @@
                     </script>
                      <script>
                      function load_indicators(){
+                        var records = $("#records").val(); 
+                        if(parseInt(records)<20){ // if records are more than 20 records block and upload.
                     var date = $("#date").val();
                     var facilityID = $("#facilityname").val();
                     var delivery_point = $("#delivery_point").val();
@@ -664,6 +779,18 @@
         else{
 //            missing date or health facility;
         }
+                        }
+        else{ // 10 or more records. No Entry must upload first
+           var title = "Error. Data Not Uploaded";
+           var text = "Dear User, Kindly connect to the Internet to Upload Your Data before any further data entry. We are trying to do this process automatically now. Incase it fails, you will do it manually.";
+           var icon = "error";
+           var button = "Close";
+           
+           notify(title,text,icon,button);  
+           
+           checkInternet(); 
+           
+           }
              }
             
                     </script>
@@ -972,13 +1099,15 @@ function send_data(){
         }
         else{
            progress(75);
-           send_users(); 
            
             db.destroy(function (err, response) {
             if (err) {
               console.log(err);
+              db = new PouchDB('der_rri');
             } else {
                 console.log(response);
+                db = new PouchDB('der_rri');
+                send_users(); 
             }
           });
         }
@@ -1046,6 +1175,7 @@ function records_counter(){
       $("#upload_data").hide();   
     }
     else{
+        $("#records").val(records);
         $("#upload_data").show();
         if(parseInt(records)>1){
      $("#toupload").html("Upload [<font color=\"yellow\">"+records+" Records</font>]"); 
@@ -1067,7 +1197,9 @@ function delete_records_counter(){
           } else {
               console.log(response);
            db_new = new PouchDB('der_rri_new');
+           
            progress(100);
+           $("#records").val(0);
            records_counter();
           }
         }); 
@@ -1618,97 +1750,149 @@ db_user.remove(phone,_rev, function(err, response) {
 }
  </script>
  
- 
-                 <script>
-                     
-                   $("#export").click(function(){
-                       exportTableToExcel("table_data","Exported_DER_Data");
-                       
-//                        db.destroy(function (err, response) {
-//                        if (err) {
-//                          console.log(err);
-//                        } else {
-//                            console.log(response);
-//                        }
-//                      });
-                   });
-                   
-                   
-                db.allDocs({
-                  include_docs: true,
-                  attachments: true
-                }).then(function (result) {
-                  // handle result
-//              var data = JSON.stringify(result);
-//		alert("data:"+data);
-//		console.log(data);
-
-                 $("#records").html(result.total_rows+" Records Found");
-               var rows = result.rows;
-//               console.log(result.rows);
-              var output="";
-            var date,delivery_point,year,month,mflcode,indicator,value,phone,timestamp,_id,_rev;
-//    alert("len : "+rows.length);
-               for(var i=0;i<rows.length;i++){
-                        date = rows[i].doc.date;
-                        delivery_point = rows[i].doc.delivery_point;
-                        year = rows[i].doc.year;
-                        month = rows[i].doc.month;
-                        mflcode = rows[i].doc.mflcode;
-                        indicator = rows[i].doc.indicator;
-                        value = rows[i].doc.value;
-                        phone = rows[i].doc.phone;
-                        timestamp = rows[i].doc.timestamp;
-                        _id = rows[i].doc._id;
-                        _rev= rows[i].doc._rev;  
-                        
-                output+="<tr><td>"+_id+"</td><td>"+date+"</td><td>"+delivery_point+"</td><td>"+year+"</td><td>"+month+"</td><td>"+indicator+"</td><td>"+mflcode+"</td><td>"+value+"</td><td>"+date+"</td><td>"+phone+"</td><td>"+timestamp+"</td><td>"+timestamp+"</td></tr>";        
-                $("#data").html(output); 
+     
+    <script>
+      $(document).ready(function() {
+          
+            $("#img_loading").hide();
+            $("#report_values").show();
+            
+         load_counties();
+         $("#county").select2();
+         $("#district").select2();
+         $("#facility").select2();
+         
+         $("#county").change(function(){
+         load_sub_counties();    
+         });
+         $("#district").change(function(){
+         load_facilities_2();    
+         });
+         
+        //date pickers here 
+         $('.datepicker').datepicker({
+             format: 'yyyy-mm-dd'
+         });
+        $("#btn_rawdata").click(function(){
+               jQuery.ajax({
+        url:'checkinternet',
+        type:"post",
+        dataType:"json",
+        success:function(response){
+        if(response.isreacheable){
+         generate_raw_data();  
+         }
+         else{
+           var title = "Error. No Internet connections";
+           var text = "Kindly re-connect your internet and then try Generating Report.";
+           var icon = "error";
+           var button = "Close";
+           
+           notify(title,text,icon,button);
+         }
+        }, 
+        error: function(jqXHR, textStatus, errorThrown) {
+           var title = "Error. No Internet connections";
+           var text = "Kindly re-connect your internet and then try Generating Report.";
+           var icon = "error";
+           var button = "Close";
+           
+           notify(title,text,icon,button);
             }
-                 
-//              $("#data").html(output);   
-                 
-                 
-                 
-                 
-//                 var form_data = {"results":data};
-//                 alert("data:"+data);
-                }).catch(function (err) {
-                  console.log(err);
-                });
-						  
-				  
-	
-    function exportTableToExcel(tableID, filename = ''){
-    var downloadLink;
-    var dataType = 'application/vnd.ms-excel';
-    var tableSelect = document.getElementById(tableID);
-    var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
-    
-    // Specify file name
-    filename = filename?filename+'.xls':'excel_data.xls';
-    
-    // Create download link element
-    downloadLink = document.createElement("a");
-    
-    document.body.appendChild(downloadLink);
-    
-    if(navigator.msSaveOrOpenBlob){
-        var blob = new Blob(['\ufeff', tableHTML], {
-            type: dataType
-        });
-        navigator.msSaveOrOpenBlob( blob, filename);
-    }else{
-        // Create a link to the file
-        downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
-    
-        // Setting the file name
-        downloadLink.download = filename;
+    }); 
+        }); 
+         
+        });   
         
-        //triggering the function
-        downloadLink.click();
+        
+        
+        
+    function load_counties(){
+       $.ajax({
+        url:'load_counties',
+        type:"post",
+        dataType:"html",
+        success:function(output){
+        $("#county").html(output);
+        $("#county").select2(); 
+         // ouput
+        }
+    });   
+
+   } 
+    function load_sub_counties(){
+        var county= $("#county").val();
+     county = (""+county).split(",").join("_");
+       $.ajax({
+        url:'load_district?counties='+county,
+        type:"post",
+        dataType:"html",
+        success:function(output){
+         $("#district").html(output);
+         $("#district").select2();
+         // ouput
+        }
+    });   
+
+   } 
+   
+    function load_facilities_2(){
+  var district= $("#district").val();
+     district = (""+district).split(",").join("_");
+       $.ajax({
+        url:'load_facilities?districts='+district,
+        type:"post",
+        dataType:"html",
+        success:function(output){
+        $("#facility").html(output);
+        $("#facility").select2(); 
+         // ouput
+        }
+    });   
+
+   } 
+   
+    function  generate_raw_data(){
+            $("#img_loading").show();
+            $("#report_values").hide();
+            
+        var counties = $("#county").val();
+        var districts = $("#district").val();
+        var facilities = $("#facility").val();
+        
+        var start_date = $("#start_date").val();
+        var end_date = $("#end_date").val();
+        
+        if(counties==null){counties="";}
+        if(districts==null){districts="";}
+        if(facilities==null){facilities="";}
+        if(start_date==null){start_date="";}
+        if(end_date==null){end_date="";}
+        
+        
+        counties = (""+counties).split(",").join("_");
+        districts = (""+districts).split(",").join("_");
+        facilities = (""+facilities).split(",").join("_");
+        
+        start_date = (""+start_date).split("-").join("_");
+        end_date = (""+end_date).split("-").join("_");
+    
+        var url = "RawData?county="+counties+"&&district="+districts+"&&facility="+facilities+"&&start_date="+start_date+"&&end_date="+end_date;
+        
+            $.fileDownload(url)
+            .done( function () {
+            $("#img_loading").hide();
+            $("#report_values").show();
+//            alert("Report Done");
+                        })
+            .fail(function () {
+            $("#img_loading").hide();
+            $("#report_values").show();
+            alert('Report generation failed, kindly try again!'); 
+             });
+     
     }
-}
-                 </script>
-	</body>
+    
+    </script>
+</body>
 </html>
