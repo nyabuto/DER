@@ -68,8 +68,8 @@ public class RawData extends HttpServlet {
                 where_location=" 1=1 ";    
                 }
             
-        else if(!(facility==null || facility.equals(""))){
-         String[] facility_data = request.getParameterValues("facility");   
+        else if(facility!=null && !facility.equals("")){
+         String[] facility_data = request.getParameter("facility").split("_");   
             where_location = " (";
            has_data=0;
            for(String fac:facility_data){
@@ -87,8 +87,8 @@ public class RawData extends HttpServlet {
            } 
               
         }
-        else if(!(sub_county==null || sub_county.equals(""))){
-            String[] sub_county_data = request.getParameterValues("district");
+        else if(sub_county!=null && !sub_county.equals("")){
+            String[] sub_county_data = request.getParameter("district").split("_");
                where_location = " (";
            has_data=0;
            for(String sct:sub_county_data){
@@ -109,8 +109,8 @@ public class RawData extends HttpServlet {
             }
                 
                       
-            else if(!(county==null || county.equals(""))){
-                   String[] county_data = request.getParameterValues("county"); 
+            else if(county!=null || !county.equals("")){
+                   String[] county_data = request.getParameter("county").split("_"); 
                    where_location = " (";
                     has_data=0;
                     System.out.println("counties : "+county_data.length);
@@ -296,9 +296,7 @@ XSSFWorkbook wb = wb1;
 //    XSSFRow RowHeader = shet1.createRow(row);
 //    RowHeader.setHeightInPoints(50);
     
-          
       System.out.println("WHERE : "+where_location);
-      
    query = "SELECT county.County AS CountyName, district.DistrictNom AS 'Sub County', subpartnera.SubPartnerNom AS 'Health Facility'," +
             "subpartnera.CentreSanteID AS 'MFL Code', date AS 'Date',IFNULL(delivery_point.name, 'CCC') AS 'Delivery_point'," +
             "SUM((CASE WHEN der_data.indicator_id=1 THEN der_data.value END)) AS 'Number of clients booked', " +

@@ -8,7 +8,7 @@
 
 
 <!DOCTYPE html>
-<!--<html  manifest="new.appcache">-->
+<html  manifest="new.appcache">
 <html>
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
@@ -126,8 +126,6 @@
                     <ul class="dropdown-content">
                         
                 <a title="Generate Raw Data" id="raw_data" data-toggle="modal" href="#raw_data_popup"><span id="usernamelabel" style="color: black;">Raw Data & Reporting Rates</span></a>
-                <!--<a title="Generate Raw Data" id="raw_data" data-toggle="modal" href="#raw_data_popup"><span id="usernamelabel" style="color: black;">Reporting Rates</span></a>-->
-                <!--<a title="Generate Raw Data" id="raw_data" data-toggle="modal" href="#raw_data_popup"><span id="usernamelabel" style="color: black;">Dashboards</span></a>-->
                  </ul>
                 </li>
                 <li>
@@ -158,7 +156,7 @@
         
         <!-- /col-3 -->
         <div class="col-sm-12">
-            <h3 style="text-align: center;color:black; font-weight: 900;">Daily Evaluation of Retention Form <div style="font-size: 14px; color: green;">v 2.0.0.1 [2018-11-13]</div></h3>
+            <h3 style="text-align: center;color:black; font-weight: 900;">Daily Evaluation of Retention Form <div style="font-size: 14px; color: green;">v 2.0.2 [2018-12-05]</div></h3>
             <input type="hidden" id="records" name="records" value="0">
             <div class="row">
                 <!-- center left-->
@@ -379,7 +377,7 @@
                    <p>Kindly follow these steps to set up DER System: </p> 
                    <ol>
                     <li>Enter <b>URL</b> to this system This will be provided by M&E Or clinical team.</li>
-                    <li>Add a user. Ensure you enter correct details and associate this user to the health facility.</li>
+                    <li>Add a user. Ensure you enter correct details and associate this user to the health facility(ies).</li>
                     <li>Select reporting date to auto-complete reporting year and month </li>
                     <li>Select health facility.(When registering a user, the selected facility will be auto-selected) </li>
                     <li><b  style="color: red;">Kindly Note: </b> Entry fields only appears if reporting date and health facility are selected </li>
@@ -397,7 +395,7 @@
                 <div>
                 <h4 style="font-weight: bold;">d] Points to Note</h4>
                 <ol>
-                <li>Indicator <b>code 10 to 14</b> are cummulative indicators hence <b>yesterday's value</b> should not be more than <b>today's value</b>. Values are cummulated monthly.</li>
+                <li>Indicator <b>code 10 to 14</b> are cumulative indicators hence <b>yesterday's value</b> should not be more than <b>today's value</b>. Values are cumulated monthly.</li>
                 <li>On the 1st of Every month,value for indicator <b>code 11</b> and <b>code 12</b> should not be more than that of indicator <b>code 3</b></li>
                </ol>
                 </div>

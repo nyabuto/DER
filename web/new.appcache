@@ -1,7 +1,7 @@
 CACHE MANIFEST
-# 2018-09-03 v2.0.1
+# 2018-12-05 v2.0.2 1
 
-#css files
+# all css files
 css/dataTables.bootstrap.min.css
 css/jquery.dataTables.min.css
 css/bootstrap.css
@@ -35,6 +35,7 @@ images/sort_both.png
 images/sort_desc.png
 images/sort_desc_disabled.png
 images/delete.png
+images/loading.gif
 logo.png
 
 #json files
